@@ -1,0 +1,564 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Untitled",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAGLgULLPkzB67o=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model1",
+			"ownedElements": [
+				{
+					"_type": "UMLUseCaseDiagram",
+					"_id": "AAAAAAGLgULLP0zC5Kg=",
+					"_parent": {
+						"$ref": "AAAAAAGLgULLPkzB67o="
+					},
+					"name": "Flow pinpointapp schets",
+					"ownedViews": [
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUORw0z0aIg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 96,
+							"top": 568,
+							"width": 89,
+							"height": 38,
+							"text": "App open"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUQGiEz9BMc=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 216,
+							"top": 488,
+							"width": 97,
+							"height": 38,
+							"text": "Login scherm"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgURlik0GrG0=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "168:560;208:520"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgUSJ7U0JDjs=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "176:576;337:575"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUSrsE0OwN0=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 112,
+							"top": 504,
+							"width": 60,
+							"height": 38,
+							"text": "niet ingelogd"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUTYT00U8B0=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 232,
+							"top": 592,
+							"width": 60,
+							"height": 38,
+							"text": "ingelogd"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgUUwPk0Z7xg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "168:552;208:424"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUU/500d5AU=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 216,
+							"top": 408,
+							"width": 97,
+							"height": 38,
+							"text": "Registreren"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgUV6Vk0i674=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "312:424;360:557"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgUWJXk0lSQk=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "304:496;348:563"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUWRME0oNDc=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 352,
+							"top": 560,
+							"width": 60,
+							"height": 25,
+							"text": "Home"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUYrzU0uXb8=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 512,
+							"top": 240,
+							"width": 153,
+							"height": 25,
+							"text": "evenement zoek pagina"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUp7H01KjLM=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 512,
+							"top": 384,
+							"width": 153,
+							"height": 25,
+							"text": "mijn evenementen"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUq+9U1R5RU=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 520,
+							"top": 552,
+							"width": 98.9052734375,
+							"height": 25,
+							"text": "pinpoint-pagina"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgUusDE1Xv3U=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 520,
+							"top": 728,
+							"width": 105.41162109375,
+							"height": 25,
+							"text": "contactenpagina"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgU2yJU1jWU8=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "392:552;494:271"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgU27pE1mfuk=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "408:560;507:423"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgU3HpU1pgmA=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "408:568;497:565"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgU3WNU1soa8=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "392:584;508:733"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU3xm01vzvU=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 680,
+							"top": 192,
+							"width": 93.10986328125,
+							"height": 51,
+							"text": "suggesties (evenementen in de buurt)"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU7JZE141Ck=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 680,
+							"top": 256,
+							"width": 93.10986328125,
+							"height": 51,
+							"text": "Wat vrienden leuk vinden"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU9y8k195AY=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 640,
+							"top": 352,
+							"width": 70.708984375,
+							"height": 25,
+							"text": "Grondplan"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU+cwE2CPYk=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 640,
+							"top": 376,
+							"width": 62.2666015625,
+							"height": 25,
+							"text": "Wanneer"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU/H6E2ILhg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 640,
+							"top": 400,
+							"width": 66.595703125,
+							"height": 25,
+							"text": "Timetable"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgU/qgU2NvJg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 640,
+							"top": 424,
+							"width": 60,
+							"height": 25,
+							"text": "Adres"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVAYxE2SLds=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 680,
+							"top": 488,
+							"width": 60,
+							"height": 51,
+							"text": "Zoek mijn vrienden"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVA3yk2X8jg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 672,
+							"top": 576,
+							"width": 80.83349609375,
+							"height": 25,
+							"text": "Plattegrond"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgVB3mE2fJ4g=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "616:552;672:512"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgVCWek2ky8Q=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "624:568;662:583"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVCnWk2nzZE=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 776,
+							"top": 440,
+							"width": 60,
+							"height": 51,
+							"text": "1. contact leggen"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVDqgE2sr+w=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 776,
+							"top": 504,
+							"width": 62.0380859375,
+							"height": 38,
+							"text": "2. navigatie"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVF9g02xqy8=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 752,
+							"top": 568,
+							"width": 109.708984375,
+							"height": 64,
+							"text": "Overzicht van evenement (luchtperspectief) + eigen locatie"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVObM026Nng=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 208,
+							"top": 504,
+							"width": 97,
+							"height": 38,
+							"text": "wachtwoord reset"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVPqyE3AlRg=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 624,
+							"top": 704,
+							"width": 78.6435546875,
+							"height": 25,
+							"text": "vriendenlijst"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVQqqU3FZ5g=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 632,
+							"top": 728,
+							"width": 103.234375,
+							"height": 64,
+							"text": "vrienden online/aanwezig op evenement"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVRrkk3KFvY=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 632,
+							"top": 784,
+							"width": 82.26171875,
+							"height": 25,
+							"text": "zoekfunctie"
+						},
+						{
+							"_type": "FreelineEdgeView",
+							"_id": "AAAAAAGLgVVJJU3WdSM=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"lineStyle": 1,
+							"points": "368:584;369:1030"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVVbQE3ZG48=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 344,
+							"top": 1040,
+							"width": 60,
+							"height": 64,
+							"text": "Manage panel voor events"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVXYlU3eHds=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 424,
+							"top": 1048,
+							"width": 60,
+							"height": 38,
+							"text": "CRUD events"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgVprxU3sTLQ=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 416,
+							"top": 1088,
+							"width": 60,
+							"height": 38,
+							"text": "Invites uitsturen"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgV4EB03xDyY=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 728,
+							"top": 968,
+							"width": 329,
+							"height": 25,
+							"text": "accounts vervangen door teamviewer-stijl?"
+						},
+						{
+							"_type": "UMLTextView",
+							"_id": "AAAAAAGLgV5pvk34O+0=",
+							"_parent": {
+								"$ref": "AAAAAAGLgULLP0zC5Kg="
+							},
+							"font": "Arial;13;0",
+							"left": 728,
+							"top": 992,
+							"width": 625,
+							"height": 25,
+							"text": "oplossing 3D-navigatie: Plattegrond per verdieping, zelf aangeven op welke verdieping je je bevindt"
+						}
+					]
+				},
+				{
+					"_type": "UMLUseCaseSubject",
+					"_id": "AAAAAAGLgUM91EzG2mI=",
+					"_parent": {
+						"$ref": "AAAAAAGLgULLPkzB67o="
+					},
+					"name": "UseCaseSubject1"
+				}
+			]
+		}
+	]
+}
