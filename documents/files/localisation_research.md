@@ -31,6 +31,6 @@ BLE utilizes RSSI to determine distance and approximate location. iBeacon, compa
 ### 2.3 NFC
 
 # Conclusion
-- For localisation outdoors, I suggest "Flutter Location 5.0.3 Dependency" or "Flutter geolocator: ^10.1.0 Dependency" as the best options to use when using flutter, mainly due to the versitality of these dependencies. There both cross-platform compatible. Because we might want an integration with google maps we need to keep an eye on Google Maps platform. While this is not free, it seems to be the best way to integrate google maps in our app.
+- For localisation outdoors, I suggest "Flutter Location 5.0.3 Dependency" or "Flutter geolocator: ^10.1.0 Dependency" as the best options to use when using flutter, mainly due to the versitality of these dependencies. There both cross-platform compatible. Personaly I feel like "Flutter geolocator: ^10.1.0 Dependency" is better described and has more flexebility than "Flutter Location 5.0.3 Dependency", this is why I suggest we use this dependency. Because we might want an integration with google maps we need to keep an eye on Google Maps platform. While this is not free, it seems to be the best way to integrate google maps in our app.
 
 - For localisation indoors, further research is needed. While BLE looks like a good option, the event would need to make the commitment of buying beacons for this to work.
