@@ -30,10 +30,10 @@ BLE utilizes RSSI to determine distance and approximate location. iBeacon, compa
 This methods makes use of the connection to wireless access points and hotspots to determine the location of the device. It has a lower accuracy that is around 3-5 meters. Apparently Apple has forbidden the use of API's for indoor localisation using WiFi.
 
 ### 2.3 Ultra Wide Band (UWB)
-In UWB there are 3 main Algorithms, 
+In UWB there are 3 main Algorithms, Arrival Angle (AOA), Arrival Time (TOA) and Arrival Time Difference (TDOA)
 
 ### 2.4 Inertial Sensors
-Using inertial sensors of a phone and using a dead-reckoning mechanism we can calculate the position of a user. This needs recalibration because it calculates the position of users from a start position and calculates further location using the inertial sensors of the phone. That is why overtime this location will become inaccurate and needs callibration.
+Using inertial sensors of a phone and using a dead-reckoning mechanism we can calculate the position of a user. This needs recalibration because it calculates the position of users from a start position and calculates further location using the inertial sensors of the phone. That is why overtime this location will become inaccurate and needs calibration.
 
 # Conclusion
 - For localisation outdoors, I suggest "Flutter Location 5.0.3 Dependency" or "Flutter geolocator: ^10.1.0 Dependency" as the best options to use when using flutter, mainly due to the versitality of these dependencies. There both cross-platform compatible. Personaly I feel like "Flutter geolocator: ^10.1.0 Dependency" is better described and has more flexebility than "Flutter Location 5.0.3 Dependency", this is why I suggest we use this dependency. Because we might want an integration with google maps we need to keep an eye on Google Maps platform. While this is not free, it seems to be the best way to integrate google maps in our app.
