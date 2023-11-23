@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/contacts/contacts.dart';
-import 'package:pinpoint_app/screens/myevents/myevents.dart';
+import 'package:pinpoint_app/screens/my_events/my_events.dart';
 import 'package:pinpoint_app/screens/overview/overview.dart';
 import 'package:pinpoint_app/screens/pinpoint/pinpoint.dart';
-import 'package:pinpoint_app/screens/searchevents/searchevents.dart';
+import 'package:pinpoint_app/screens/search_events/search_events.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
