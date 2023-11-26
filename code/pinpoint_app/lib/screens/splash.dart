@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:pinpoint_app/screens/home/home.dart';
+import 'package:pinpoint_app/screens/home.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
