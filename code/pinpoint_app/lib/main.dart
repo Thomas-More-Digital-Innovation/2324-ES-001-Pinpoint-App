@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/splash.dart';
+import 'package:pinpoint_app/screens/location/location.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Splash(),
-    );
-  }
+  runApp(MaterialApp(
+      initialRoute: '/splash',
+      routes: {
+        '/splash': (context) => const Splash(),
+        '/location': (context) => const Location(),
+      },
+    ));
 }
