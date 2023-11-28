@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-Future<List<Position>> fetchPositionList() async {
+Future<List<User>> fetchUserList() async {
   const String apiUrl =
       'https://pinpoint-api-poc.syand.workers.dev/'; // API URL
 
@@ -12,8 +12,8 @@ Future<List<Position>> fetchPositionList() async {
       // Fetch position
       Iterable positions = jsonDecode(response.body);
 
-      List<Position> positionsList =
-          positions.map((model) => Position.fromJson(model)).toList();
+      List<User> positionsList =
+          positions.map((model) => User.fromJson(model)).toList();
 
       return Future.value(positionsList);
     } else {
@@ -26,21 +26,21 @@ Future<List<Position>> fetchPositionList() async {
   }
 }
 
-class Position {
+class User {
   final String name;
   final double lat;
   final double lon;
   final String timeCreated;
 
-  const Position({
+  const User({
     required this.name,
     required this.lat,
     required this.lon,
     required this.timeCreated,
   });
 
-  factory Position.fromJson(Map<String, dynamic> json) {
-    return Position(
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
       name: json['name'],
       lat: json['lat'],
       lon: json['lon'],
