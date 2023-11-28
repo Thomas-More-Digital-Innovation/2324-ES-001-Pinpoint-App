@@ -4,16 +4,16 @@ class ButtonWidget extends StatelessWidget {
   const ButtonWidget({
     super.key,
     required this.text,
-    required this.route,
+    required this.onTap,
   });
 
   final String text;
-  final String route;
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => {Navigator.pushNamed(context, route)},
+      onTap: onTap,
       child: Container(
         width: 200,
         padding: const EdgeInsets.all(25),
