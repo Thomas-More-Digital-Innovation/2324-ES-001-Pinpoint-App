@@ -19,8 +19,6 @@ class _LocationState extends State<Location> {
 
   Future<void> _initializeData() async {
     futurePositionList = fetchPositionList();
-
-    List<Position> positionList = await futurePositionList;
   }
 
   @override
@@ -38,7 +36,7 @@ class _LocationState extends State<Location> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      "${positions![index].name} : ",
+                      "${positions![index].name}: ",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Column(

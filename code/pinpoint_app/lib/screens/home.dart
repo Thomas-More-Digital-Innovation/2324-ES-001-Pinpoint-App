@@ -4,6 +4,7 @@ import 'package:pinpoint_app/screens/my_events/my_events.dart';
 import 'package:pinpoint_app/screens/overview/overview.dart';
 import 'package:pinpoint_app/screens/pinpoint/pinpoint.dart';
 import 'package:pinpoint_app/screens/search_events/search_events.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
