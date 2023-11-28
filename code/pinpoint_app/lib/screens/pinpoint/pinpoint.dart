@@ -11,7 +11,7 @@ class PinPoint extends StatelessWidget {
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ButtonWidget(text: "My Location", page: "/location"),
+          ButtonWidget(text: "My Location", route: "/location"),
           SizedBox(
             height: 25,
           ),

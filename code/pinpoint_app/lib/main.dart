@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/splash.dart';
-import 'package:pinpoint_app/screens/location/location.dart';
+import 'package:pinpoint_app/screens/pinpoint/location.dart';
 
 void main() {
   runApp(const MyApp());
