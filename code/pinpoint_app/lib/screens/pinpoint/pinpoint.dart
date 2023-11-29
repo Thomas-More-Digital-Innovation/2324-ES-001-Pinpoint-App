@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/pinpoint/landing.dart';
 import 'package:pinpoint_app/screens/pinpoint/location.dart';
+import 'package:pinpoint_app/screens/pinpoint/map_tryout.dart';
 
 class PinPoint extends StatefulWidget {
   const PinPoint({super.key});
@@ -10,18 +11,33 @@ class PinPoint extends StatefulWidget {
 }
 
 class _PinPointState extends State<PinPoint> {
-  bool showPage1 = true;
+  bool showLocationPage = false;
+  bool showMapPage = false;
 
-  void togglePages() {
+  @override
+  void initState() {
+    super.initState();
+    // Set both variables to false when the widget is initialized
+    showLocationPage = false;
+    showMapPage = false;
+  }
+
+  void toggleLocationPage() {
     setState(() {
-      showPage1 = !showPage1;
+      showLocationPage = !showLocationPage ;
+    });
+  }
+
+  void toggleMapPage() {
+    setState(() {
+      showMapPage = !showMapPage ;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: showPage1 ? PinpointLanding(onButtonPressed: togglePages) : const Location(),
+      body: showLocationPage ? const Location() : showMapPage ? const MapTryout() : PinpointLanding(onButtonLocationPressed: toggleLocationPage, onButtonMapPressed: toggleMapPage),
     );
   }
 }
