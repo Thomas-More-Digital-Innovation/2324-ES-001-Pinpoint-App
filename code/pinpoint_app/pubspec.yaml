@@ -38,6 +38,8 @@ dependencies:
   geolocator: ^10.1.0
   flutter_map: ^6.0.1
   latlong2: ^0.9.0
+  flutter_svg: ^2.0.9
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,20 @@ flutter:
   assets:
     - assets/rw.png
     - assets/pkp.png
+    - assets/logotext.png
+  
+  fonts:
+  - family: Righteous
+    fonts:
+      - asset: fonts/Righteous-Regular.ttf
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  min_sdk_android: 21
+  adaptive_icon_foreground: "assets/app_icon.png"
+  adaptive_icon_background: "#1e1e1e"
+  ios: true
+  image_path: "assets/app_icon.png"
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

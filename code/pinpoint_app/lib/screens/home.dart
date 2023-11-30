@@ -32,48 +32,57 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: SizedBox(
-        height: 80,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: const Color.fromRGBO(222, 226, 226, 1.0),
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search, size: 20),
-              label: "Search",
-              backgroundColor: Colors.black,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.event, size: 20),
-              label: 'My Events',
-              backgroundColor: Colors.black,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.explore_outlined, size: 50),
-              label: "",
-              backgroundColor: Colors.black,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.dashboard, size: 20),
-              label: 'Overview',
-              backgroundColor: Colors.black,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.people, size: 20),
-              label: 'People',
-              backgroundColor: Colors.black,
-            )
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color.fromRGBO(0, 0, 0, 1.0),
-          unselectedItemColor: const Color.fromRGBO(0, 0, 0, 0.3),
-          onTap: _onItemTapped,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomAppBar(
+          height: 70,
+          color: const Color.fromRGBO(161, 255, 182, 100),
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              navbarIconbutton(() {
+                _onItemTapped(0);
+              }, Icons.search, _selectedIndex, 0),
+              navbarIconbutton(() {
+                _onItemTapped(1);
+              }, Icons.event, _selectedIndex, 1),
+              const SizedBox(width: 20),
+              navbarIconbutton(() {
+                _onItemTapped(3);
+              }, Icons.dashboard, _selectedIndex, 3),
+              navbarIconbutton(() {
+                _onItemTapped(4);
+              }, Icons.people, _selectedIndex, 4)
+            ],
+          ),
         ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
+          onPressed: () {
+            _onItemTapped(2);
+          },
+          child: const Icon(Icons.explore_outlined,
+              size: 50, color: Color.fromRGBO(255, 70, 70, 1)),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
-    ));
+    );
   }
+}
+
+IconButton navbarIconbutton(
+    Function() onpressed, IconData icon, int index, int widgetIndex) {
+  return IconButton(
+    onPressed: onpressed,
+    icon: Icon(
+      icon,
+      color: index == widgetIndex
+          ? const Color.fromRGBO(30, 30, 30, 1.0)
+          : const Color.fromRGBO(
+              50, 50, 50, 0.5), // Change color based on selected index
+    ),
+  );
 }

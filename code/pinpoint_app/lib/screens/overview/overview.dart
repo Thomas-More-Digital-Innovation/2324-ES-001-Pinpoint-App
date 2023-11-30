@@ -5,8 +5,8 @@ class Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder(
-      child: Center(child: Text("Overview")),
+    return const Scaffold(
+      body: Center(child: Text("Overview")),
     );
   }
 }
