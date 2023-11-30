@@ -15,19 +15,19 @@ class ButtonWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 200,
-        padding: const EdgeInsets.all(25),
-        decoration: BoxDecoration(
-          color: const Color.fromRGBO(222, 226, 226, 1.0),
-          borderRadius: BorderRadius.circular(15.0),
-        ),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style:
-              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-      ),
+          width: double.infinity,
+          padding: const EdgeInsets.all(25),
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(222, 226, 226, 1.0),
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          child: Center(
+            child: Text(
+              text,
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.w500, fontSize: 22),
+            ),
+          )),
     );
   }
 }
