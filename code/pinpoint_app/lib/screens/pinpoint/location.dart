@@ -13,7 +13,8 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
-  late Future<List<User>> futurePositionList;
+  late Future<List<User>> futureUserList;
+  late Timer _timer;
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
   LocationSettings settings = const LocationSettings(
@@ -27,10 +28,11 @@ class _LocationState extends State<Location> {
     super.initState();
     _initializeData();
     _startContinuousLocationTracking();
+    _getPositions();
   }
 
   Future<void> _initializeData() async {
-    futurePositionList = fetchUserList();
+    futureUserList = fetchUserList();
   }
 
   void _startContinuousLocationTracking() {
@@ -71,8 +73,16 @@ class _LocationState extends State<Location> {
     }
   }
 
+  void _getPositions() {
+    // Start the periodic timer
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      futureUserList = fetchUserList();
+    });
+  }
+
   @override
   void dispose() {
+    _timer.cancel();
     // Cancel the location stream subscription when the widget is disposed
     locationStreamSubscription.cancel();
     super.dispose();
@@ -105,7 +115,7 @@ class _LocationState extends State<Location> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: FutureBuilder<List>(
-                future: futurePositionList,
+                future: futureUserList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData &&
                       snapshot.connectionState == ConnectionState.done) {
