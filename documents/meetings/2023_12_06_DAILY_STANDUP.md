@@ -1,5 +1,5 @@
 # Daily Standup
-meeting report - Decemeber 6, 2023
+meeting report - December 6, 2023
 
 # Meeting Details
 ## Duration
