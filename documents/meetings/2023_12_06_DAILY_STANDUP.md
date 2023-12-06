@@ -6,8 +6,8 @@ meeting report - Decemeber 6, 2023
 00h05
 
 # Participants
-Hube Van Loey | Development team | Online
-Sens van Aert | Development team | Online
+- Hube Van Loey | Development team | Online
+- Sens van Aert | Development team | Online
 
 # Meeting Contents
 ## Hube
