@@ -16,7 +16,7 @@ class ButtonWidget extends StatelessWidget {
       onTap: onTap,
       child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: const Color.fromRGBO(222, 226, 226, 1.0),
             borderRadius: BorderRadius.circular(15.0),
@@ -25,7 +25,9 @@ class ButtonWidget extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.w500, fontSize: 22),
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 22),
             ),
           )),
     );
