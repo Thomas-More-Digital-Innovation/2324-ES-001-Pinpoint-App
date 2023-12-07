@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/pinpoint/landing.dart';
 import 'package:pinpoint_app/screens/pinpoint/location.dart';
-import 'package:pinpoint_app/screens/pinpoint/map_tryout.dart';
+import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 
 class PinPoint extends StatefulWidget {
   const PinPoint({super.key});

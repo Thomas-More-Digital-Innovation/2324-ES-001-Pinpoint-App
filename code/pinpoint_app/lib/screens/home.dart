@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
+          heroTag: "toPinPointMenu",
           backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
           onPressed: () {
             _onItemTapped(2);
