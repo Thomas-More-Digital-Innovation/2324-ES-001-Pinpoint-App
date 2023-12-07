@@ -50,7 +50,7 @@ class MapTryout extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MapOverview()),
+                          builder: (context) => CustomMapOverview()),
                     );
                   },
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map_add.dart';
 import 'package:pinpoint_app/models/map_entry.dart';
 
-class MapOverview extends StatefulWidget {
+class CustomMapOverview extends StatefulWidget {
   @override
-  _MapOverviewState createState() => _MapOverviewState();
+  _CustomMapOverviewState createState() => _CustomMapOverviewState();
 }
 
-class _MapOverviewState extends State<MapOverview> {
+class _CustomMapOverviewState extends State<CustomMapOverview> {
   List<MapEntry> _mapEntries = [];
 
   void _addMapEntry(MapEntry mapEntry) {
@@ -25,23 +25,23 @@ class _MapOverviewState extends State<MapOverview> {
         body: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               width: double.infinity,
               height: 60,
-              decoration: BoxDecoration(
-                  color: const Color.fromRGBO(30, 30, 30, 1.0),
+              decoration: const BoxDecoration(
+                  color: Color.fromRGBO(30, 30, 30, 1.0),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(15),
                       bottomRight: Radius.circular(15))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Map Overview", style: TextStyle(color: Colors.white)),
+                  const Text("Map Overview", style: TextStyle(color: Colors.white)),
                   Row(
                     children: [
                       IconButton(
                           onPressed: () => {},
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.delete,
                             color: Color.fromRGBO(255, 70, 70, 1),
                           )),
@@ -50,15 +50,15 @@ class _MapOverviewState extends State<MapOverview> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MapEntryForm(
+                                builder: (context) => CustomMapAdd(
                                   onMapEntryCreated: _addMapEntry,
                                 ),
                               ),
                             );
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.add,
-                            color: const Color.fromRGBO(161, 255, 182, 100),
+                            color: Color.fromRGBO(161, 255, 182, 100),
                           )),
                     ],
                   )
@@ -71,10 +71,10 @@ class _MapOverviewState extends State<MapOverview> {
                 itemBuilder: (BuildContext context, int index) {
                   final entry = _mapEntries[index];
                   return Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                       width: double.infinity,
                       height: 150,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Color.fromARGB(255, 209, 209, 209),
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       child: Padding(
@@ -85,7 +85,7 @@ class _MapOverviewState extends State<MapOverview> {
                           children: [
                             ClipRRect(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                    const BorderRadius.all(Radius.circular(10)),
                                 child: Image.file(
                                   File(entry.imagePath),
                                   fit: BoxFit.cover,
@@ -98,12 +98,12 @@ class _MapOverviewState extends State<MapOverview> {
                               children: [
                                 Expanded(
                                     child: Text(entry.title,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w700))),
                                 Expanded(
                                   child: Container(
-                                    padding: EdgeInsets.all(4),
+                                    padding: const EdgeInsets.all(4),
                                     width: double.infinity,
                                     child: Column(
                                         mainAxisAlignment:
@@ -131,7 +131,7 @@ class _MapOverviewState extends State<MapOverview> {
             Navigator.pop(context);
           },
           backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),
-          child: Icon(Icons.arrow_back, color: Colors.white, size: 35),
+          child: const Icon(Icons.arrow_back, color: Colors.white, size: 35),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),

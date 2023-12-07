@@ -3,16 +3,16 @@ import 'package:pinpoint_app/models/map_entry.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class MapEntryForm extends StatefulWidget {
+class CustomMapAdd extends StatefulWidget {
   final Function(MapEntry) onMapEntryCreated;
 
-  MapEntryForm({required this.onMapEntryCreated});
+  const CustomMapAdd({super.key, required this.onMapEntryCreated});
 
   @override
-  _MapEntryFormState createState() => _MapEntryFormState();
+  _CustomMapAddState createState() => _CustomMapAddState();
 }
 
-class _MapEntryFormState extends State<MapEntryForm> {
+class _CustomMapAddState extends State<CustomMapAdd> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _topLeftController = TextEditingController();
   final TextEditingController _bottomRightController = TextEditingController();
@@ -21,8 +21,8 @@ class _MapEntryFormState extends State<MapEntryForm> {
 
   // Function to handle image selection
   Future<void> _pickImage() async {
-    final ImagePicker _picker = ImagePicker();
-    final pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+    final ImagePicker picker = ImagePicker();
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setState(() {
@@ -52,7 +52,7 @@ class _MapEntryFormState extends State<MapEntryForm> {
                       )
                     : Container(
                         decoration: BoxDecoration(color: Colors.grey[900]),
-                        child: Center(
+                        child: const Center(
                             child: Icon(Icons.image,
                                 size: 350, color: Colors.red)),
                       ),
@@ -63,7 +63,7 @@ class _MapEntryFormState extends State<MapEntryForm> {
                           Colors.white, // Change button background color here
                     ),
                     onPressed: _pickImage,
-                    child: Text(
+                    child: const Text(
                       'Select Image',
                       style: TextStyle(color: Colors.black),
                     ),
@@ -78,17 +78,17 @@ class _MapEntryFormState extends State<MapEntryForm> {
                 children: [
                   TextFormField(
                     controller: _titleController,
-                    decoration: InputDecoration(labelText: 'Title'),
+                    decoration: const InputDecoration(labelText: 'Title'),
                   ),
                   TextFormField(
                     controller: _topLeftController,
                     decoration:
-                        InputDecoration(labelText: 'Top Left Coordinate'),
+                        const InputDecoration(labelText: 'Top Left Coordinate'),
                     keyboardType: TextInputType.number,
                   ),
                   TextFormField(
                     controller: _bottomRightController,
-                    decoration: InputDecoration(labelText: 'Bottom Right Coordinate'),
+                    decoration: const InputDecoration(labelText: 'Bottom Right Coordinate'),
                     keyboardType: TextInputType.number,
                   ),
                 ],
@@ -113,9 +113,9 @@ class _MapEntryFormState extends State<MapEntryForm> {
               Navigator.pop(context);
             },
             backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),
-            child: Icon(
+            child: const Icon(
               Icons.check,
-              color: const Color.fromRGBO(161, 255, 182, 100),
+              color: Color.fromRGBO(161, 255, 182, 100),
               size: 35,
             )),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
