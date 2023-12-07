@@ -44,6 +44,7 @@ dependencies:
   path_provider:
   shared_preferences: ^2.2.2
   uuid: ^4.2.1
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:
