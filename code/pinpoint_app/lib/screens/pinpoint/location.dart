@@ -13,6 +13,8 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
+  late bool serviceEnabled;
+  late LocationPermission permission;
   late Future<List<User>> futureUserList;
   late Timer _timer;
   late StreamSubscription<Position> locationStreamSubscription;
@@ -36,15 +38,20 @@ class _LocationState extends State<Location> {
   }
 
   void _startContinuousLocationTracking() {
-    locationStreamSubscription = Geolocator.getPositionStream(
-      locationSettings: settings,
-    ).listen((Position position) {
-      setState(() {
-        currentPosition = position;
-        String name = "WERKPLZ";
-        postJsonData(name, currentPosition!);
+    try {
+      locationStreamSubscription = Geolocator.getPositionStream(
+        locationSettings: settings,
+      ).listen((Position position) {
+        setState(() {
+          currentPosition = position;
+          String name = "Jane Doe";
+          postJsonData(name, currentPosition!);
+        });
       });
-    });
+    } catch (e) {
+      print("There was an excetion in _startContinuousLocationTracking()");
+      print(e);
+    }
   }
 
   Future<void> postJsonData(String name, Position pos) async {
