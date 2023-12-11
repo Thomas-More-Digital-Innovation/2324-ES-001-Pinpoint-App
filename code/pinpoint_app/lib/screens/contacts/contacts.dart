@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/components/button.dart';
 import 'package:uuid/uuid.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -38,10 +39,22 @@ class _ContactsState extends State<Contacts> {
                     setState(() {});
                   },
                 ),
-                Text(
-                  uniqueCode ?? "No code generated",
-                  style: const TextStyle(fontWeight: FontWeight.w300),
-                ),
+                uniqueCode != null
+                    ? Column(
+                        children: [
+                          Text(
+                            uniqueCode ?? "No code generated",
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w300),
+                          ),
+                          QrImageView(
+                            data: uniqueCode!,
+                            version: QrVersions.auto,
+                            size: 200.0,
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
             const Text("Contacts"),
