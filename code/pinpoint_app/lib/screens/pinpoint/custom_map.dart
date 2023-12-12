@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:pinpoint_app/screens/pinpoint/custom_map_overview.dart';
+import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
 
 class MapTryout extends StatelessWidget {
@@ -51,7 +51,7 @@ class MapTryout extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CustomMapOverview(),
+                        builder: (context) => FloorplanOverview(),
                       ),
                     );
                   },

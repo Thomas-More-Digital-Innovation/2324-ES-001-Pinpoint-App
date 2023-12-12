@@ -15,10 +15,12 @@ class SearchEvents extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 Floorplan floorplan = hardcodedFloorplans[index];
-                double centerLat =
-                    (floorplan.topLeft['lat']! + floorplan.bottomRight['lat']!) / 2;
-                double centerLon =
-                    (floorplan.topLeft['lon']! + floorplan.bottomRight['lon']!) / 2;
+                double centerLat = (floorplan.topLeft['lat']! +
+                        floorplan.bottomRight['lat']!) /
+                    2;
+                double centerLon = (floorplan.topLeft['lon']! +
+                        floorplan.bottomRight['lon']!) /
+                    2;
 
                 Navigator.push(
                   context,
