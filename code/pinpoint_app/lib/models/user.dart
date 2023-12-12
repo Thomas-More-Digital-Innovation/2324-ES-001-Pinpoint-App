@@ -1,5 +1,6 @@
 class User {
   final String name;
+  final String? uniqueCode;
   final double lat;
   final double lon;
   final String timeCreated;
@@ -7,6 +8,7 @@ class User {
 
   const User(
       {required this.name,
+      this.uniqueCode,
       required this.lat,
       required this.lon,
       required this.timeCreated,
@@ -15,6 +17,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
         name: json['name'],
+        uniqueCode: json['uniqueCode'],
         lat: json['lat'],
         lon: json['lon'],
         timeCreated: json['timeCreated'],
