@@ -7,16 +7,16 @@ import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan mo
 import 'package:http/http.dart' as http;
 import 'package:pinpoint_app/globals.dart' as globals;
 
-class CustomMapAdd extends StatefulWidget {
+class FloorplanAdd extends StatefulWidget {
 
-  const CustomMapAdd({Key? key})
+  const FloorplanAdd({Key? key})
       : super(key: key);
 
   @override
-  _CustomMapAddState createState() => _CustomMapAddState();
+  FloorplanAddState createState() => FloorplanAddState();
 }
 
-class _CustomMapAddState extends State<CustomMapAdd> {
+class FloorplanAddState extends State<FloorplanAdd> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _topLeftLatController = TextEditingController();
   final TextEditingController _topLeftLonController = TextEditingController();
@@ -44,7 +44,7 @@ class _CustomMapAddState extends State<CustomMapAdd> {
       final imageResponse = await http.post(
           Uri.parse("${globals.imageUrl}${newFloorPlan.image}"),
           headers: <String, String>{},
-          body: File(newFloorPlan.image).readAsBytesSync());
+          body: File(newFloorPlan.image!).readAsBytesSync());
 
       Map<String, dynamic> jsonData = {
         "name": newFloorPlan.name,

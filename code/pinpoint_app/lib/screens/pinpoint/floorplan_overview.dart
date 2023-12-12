@@ -1,10 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/fetch_floorplans.dart';
-import 'package:pinpoint_app/screens/pinpoint/custom_map_add.dart';
+import 'package:pinpoint_app/screens/pinpoint/floorplan_add.dart';
 import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan model
-import 'package:http/http.dart' as http;
 import 'package:pinpoint_app/globals.dart' as globals;
 
 class FloorplanOverview extends StatefulWidget {
@@ -63,7 +60,7 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const CustomMapAdd(),
+                              builder: (context) => const FloorplanAdd(),
                             ),
                           );
                         },
@@ -106,8 +103,8 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                                   ClipRRect(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
-                                    child: Image.file(
-                                      File(floorplan.value.image),
+                                    child: Image.network(
+                                      floorplan.value.image ?? globals.noImage,
                                       fit: BoxFit.cover,
                                       width: 150,
                                       height: 150,

@@ -3,16 +3,38 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
+import 'package:pinpoint_app/api/fetch_floorplans.dart';
+import 'package:pinpoint_app/globals.dart' as globals;
 
-class MapTryout extends StatelessWidget {
-  final double centerLat;
-  final double centerLon;
+class CustomMap extends StatefulWidget {
+  final double? centerLat;
+  final double? centerLon;
 
-  const MapTryout({
+  CustomMap({
     Key? key,
-    required this.centerLat,
-    required this.centerLon,
+    this.centerLat,
+    this.centerLon,
   }) : super(key: key);
+
+  @override
+  State<CustomMap> createState() => _CustomMapState();
+}
+
+class _CustomMapState extends State<CustomMap> {
+  late Future<List<Floorplan>> _futureFloorplans;
+  final String noImage = "assets/no-image.jpg";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getFloorplans();
+  }
+
+  Future<List<Floorplan>> _getFloorplans() async {
+    _futureFloorplans = fetchFloorplanList();
+    return _futureFloorplans;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,26 +42,35 @@ class MapTryout extends StatelessWidget {
       body: FlutterMap(
         mapController: MapController(),
         options: MapOptions(
-          initialCenter: LatLng(centerLat, centerLon),
+          initialCenter: LatLng(widget.centerLat ?? 51, widget.centerLon ?? 4),
           initialZoom: 14,
         ),
         children: [
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
-          OverlayImageLayer(
-            overlayImages: hardcodedFloorplans.map((floorplan) {
-              return OverlayImage(
-                bounds: LatLngBounds(
-                  LatLng(floorplan.location['topLeft']['lat'],
-                      floorplan.location['topLeft']['lon']),
-                  LatLng(floorplan.location['bottomRight']['lat'],
-                      floorplan.location['bottomRight']['lon']),
-                ),
-                imageProvider: AssetImage(floorplan.image),
-              );
-            }).toList(),
-          ),
+          FutureBuilder(
+              future: _futureFloorplans,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return OverlayImageLayer(
+                      overlayImages:
+                          snapshot.data!.asMap().entries.map((floorplan) {
+                    return OverlayImage(
+                      bounds: LatLngBounds(
+                        LatLng(floorplan.value.topLeftLat,
+                            floorplan.value.topLeftLon),
+                        LatLng(floorplan.value.bottomRightLat,
+                            floorplan.value.bottomRightLon),
+                      ),
+                      imageProvider: NetworkImage(floorplan.value.image ?? globals.noImage),
+                    );
+                  }).toList());
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }),
           Padding(
             padding: EdgeInsets.all(6),
             child: Row(

@@ -24,20 +24,29 @@ class _PinPointState extends State<PinPoint> {
 
   void toggleLocationPage() {
     setState(() {
-      showLocationPage = !showLocationPage ;
+      showLocationPage = !showLocationPage;
     });
   }
 
   void toggleMapPage() {
     setState(() {
-      showMapPage = !showMapPage ;
+      showMapPage = !showMapPage;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: showLocationPage ? const Location() : showMapPage ? const MapTryout(centerLat: 50.967322, centerLon: 4.685438,) : PinpointLanding(onButtonLocationPressed: toggleLocationPage, onButtonMapPressed: toggleMapPage),
+      body: showLocationPage
+          ? const Location()
+          : showMapPage
+              ? CustomMap(
+                  centerLat: 50.967322,
+                  centerLon: 4.685438,
+                )
+              : PinpointLanding(
+                  onButtonLocationPressed: toggleLocationPage,
+                  onButtonMapPressed: toggleMapPage),
     );
   }
 }

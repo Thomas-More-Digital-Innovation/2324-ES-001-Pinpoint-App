@@ -5,7 +5,9 @@ class Floorplan {
   final double topLeftLon;
   final double bottomRightLat;
   final double bottomRightLon;
-  final String image;
+  final double? centerLat;
+  final double? centerLon;
+  final String? image;
 
   const Floorplan({
     this.id,
@@ -14,7 +16,9 @@ class Floorplan {
     required this.topLeftLon,
     required this.bottomRightLat,
     required this.bottomRightLon,
-    required this.image,
+    this.centerLat,
+    this.centerLon,
+    this.image,
   });
 
   factory Floorplan.fromJson(Map<String, dynamic> json) {
@@ -25,6 +29,8 @@ class Floorplan {
       topLeftLon: json['location']['topLeft']['lon'],
       bottomRightLat: json['location']['bottomRight']['lat'],
       bottomRightLon: json['location']['bottomRight']['lon'],
+      centerLat: json['center']['lat'],
+      centerLon: json['center']['lon'],
       image: json['image'],
     );
   }
