@@ -43,15 +43,18 @@ class _ContactsState extends State<Contacts> {
                 uniqueCode != null
                     ? Column(
                         children: [
-                          Text(
-                            uniqueCode ?? "No code generated",
-                            style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w300),
+                          const SizedBox(
+                            height: 10,
                           ),
                           QrImageView(
                             data: uniqueCode!,
                             version: QrVersions.auto,
                             size: 200.0,
+                          ),
+                          Text(
+                            uniqueCode!,
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w300),
                           ),
                         ],
                       )
