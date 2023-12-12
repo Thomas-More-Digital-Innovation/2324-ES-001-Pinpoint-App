@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/components/button.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -15,8 +16,8 @@ class _ContactsState extends State<Contacts> {
 
   void _generateUniqueCode() {
     var uuid = const Uuid();
-    uniqueCode =
-        uuid.v4().substring(0, 6); // Use a portion of the UUID as the code
+    uniqueCode = uuid.v4().substring(0, 6);
+    postUniqueCode(uniqueCode!);
   }
 
   @override
