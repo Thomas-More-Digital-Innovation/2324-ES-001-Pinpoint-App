@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pinpoint_app/globals.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
-import 'package:pinpoint_app/api/fetch_floorplans.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
 
 class SearchEvents extends StatefulWidget {
   const SearchEvents({super.key});
@@ -49,11 +50,12 @@ class _SearchEventsState extends State<SearchEvents> {
                     );
                   },
                   child: Container(
-                      padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
-                      margin: EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(
+                          top: 8.0, left: 8.0, right: 8.0),
+                      margin: const EdgeInsets.only(bottom: 8.0),
                       width: double.infinity,
                       height: 200,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
@@ -64,20 +66,20 @@ class _SearchEventsState extends State<SearchEvents> {
                             Container(
                               width: 100, // Set width and height as needed
                               height: 100,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Colors
                                     .white, // Set the desired background color
                               ),
                               child: ClipOval(
                                 child: Image.asset(
-                                  floorplan.value.image!,
+                                  floorplan.value.image ?? noImage,
                                   fit: BoxFit
                                       .cover, // Adjust the fit based on your requirement
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(floorplan.value.name)

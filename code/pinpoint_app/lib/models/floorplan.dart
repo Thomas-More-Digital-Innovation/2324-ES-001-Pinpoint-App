@@ -25,12 +25,12 @@ class Floorplan {
     return Floorplan(
       id: json['id'],
       name: json['name'],
-      topLeftLat: json['location']['topLeft']['lat'],
-      topLeftLon: json['location']['topLeft']['lon'],
-      bottomRightLat: json['location']['bottomRight']['lat'],
-      bottomRightLon: json['location']['bottomRight']['lon'],
-      centerLat: json['center']['lat'],
-      centerLon: json['center']['lon'],
+      topLeftLat: json['location']['topLeft']['lat'] + 0.0,
+      topLeftLon: json['location']['topLeft']['lon'] + 0.0,
+      bottomRightLat: json['location']['bottomRight']['lat'] + 0.0,
+      bottomRightLon: json['location']['bottomRight']['lon'] + 0.0,
+      centerLat: json['center']['lat'] + 0.0,
+      centerLon: json['center']['lon'] + 0.0,
       image: json['image'],
     );
   }

@@ -1,16 +1,11 @@
-import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan model
-import 'package:http/http.dart' as http;
-import 'package:pinpoint_app/globals.dart' as globals;
+import 'package:pinpoint_app/models/floorplan.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
 
 class FloorplanAdd extends StatefulWidget {
-
-  const FloorplanAdd({Key? key})
-      : super(key: key);
+  const FloorplanAdd({Key? key}) : super(key: key);
 
   @override
   FloorplanAddState createState() => FloorplanAddState();
@@ -36,47 +31,6 @@ class FloorplanAddState extends State<FloorplanAdd> {
       setState(() {
         _imagePath = pickedImage.path;
       });
-    }
-  }
-
-  Future<void> _postCustomMap(Floorplan newFloorPlan) async {
-    try {
-      final imageResponse = await http.post(
-          Uri.parse("${globals.imageUrl}${newFloorPlan.image}"),
-          headers: <String, String>{},
-          body: File(newFloorPlan.image!).readAsBytesSync());
-
-      Map<String, dynamic> jsonData = {
-        "name": newFloorPlan.name,
-        "location": {
-          "topLeft": {
-            "lat": newFloorPlan.topLeftLat,
-            "lon": newFloorPlan.topLeftLon,
-          },
-          "bottomRight": {
-            "lat": newFloorPlan.bottomRightLat,
-            "lon": newFloorPlan.bottomRightLon,
-          }
-        },
-        "image": imageResponse.body
-      };
-
-      final response = await http.post(
-        Uri.parse(globals.floorplanUrl),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(jsonData),
-      );
-
-      if (response.statusCode == 200) {
-        print('Image or JSON posted successfully');
-      } else {
-        print(
-            'Failed to post Image or JSON. Status code: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Error posting Image or JSON: $e');
     }
   }
 
@@ -213,7 +167,7 @@ class FloorplanAddState extends State<FloorplanAdd> {
               bottomRightLon: bottomRightLon,
               image: _imagePath,
             );
-            _postCustomMap(newFloorplan);
+            postCustomMap(newFloorplan);
             Navigator.pop(context);
           },
           backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),

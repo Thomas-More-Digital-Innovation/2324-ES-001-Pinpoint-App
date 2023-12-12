@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pinpoint_app/api/fetch_floorplans.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/screens/pinpoint/floorplan_add.dart';
 import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan model
 import 'package:pinpoint_app/globals.dart' as globals;

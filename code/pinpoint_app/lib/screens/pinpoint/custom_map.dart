@@ -3,7 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/api/fetch_floorplans.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
 
 class CustomMap extends StatefulWidget {
