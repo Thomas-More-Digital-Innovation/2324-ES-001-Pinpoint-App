@@ -87,8 +87,7 @@ class _LocationState extends State<Location> {
         });
       }
     } catch (e) {
-      print("There was an excetion in _startContinuousLocationTracking()");
-      print(e);
+      print("There was an excetion in _startContinuousLocationTracking(): $e");
     }
   }
 
