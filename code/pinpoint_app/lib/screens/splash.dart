@@ -15,7 +15,8 @@ class _SplashState extends State<Splash> {
     super.initState();
 
     Timer(const Duration(seconds: 5), () {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => const Home()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const Home(index: 3)));
     });
   }
 
@@ -35,8 +36,11 @@ class _SplashState extends State<Splash> {
               ],
               transform: GradientRotation(2.25)),
         )),
-        const Center(child: Image(image: AssetImage('assets/logotext.png'),
-        width: 200,))
+        const Center(
+            child: Image(
+          image: AssetImage('assets/logotext.png'),
+          width: 200,
+        ))
       ],
     ));
   }
