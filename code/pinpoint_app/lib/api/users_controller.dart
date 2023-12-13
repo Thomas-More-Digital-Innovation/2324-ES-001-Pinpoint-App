@@ -1,5 +1,6 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:pinpoint_app/models/user.dart';
 
 Future<List<User>> fetchUserList() async {
   const String apiUrl =
@@ -26,26 +27,24 @@ Future<List<User>> fetchUserList() async {
   }
 }
 
-class User {
-  final String name;
-  final double lat;
-  final double lon;
-  final String timeCreated;
-  final String? timeModified;
+Future<void> postUniqueCode(String uniqueCode) async {
+  Map<String, dynamic> jsonData = {"name": "WERKPLZ", "uniqueCode": uniqueCode};
 
-  const User(
-      {required this.name,
-      required this.lat,
-      required this.lon,
-      required this.timeCreated,
-      this.timeModified});
+  try {
+    final response = await http.put(
+      Uri.parse("https://pinpoint-api-poc.syand.workers.dev/api/users"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(jsonData),
+    );
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-        name: json['name'],
-        lat: json['lat'],
-        lon: json['lon'],
-        timeCreated: json['timeCreated'],
-        timeModified: json['timeModified']);
+    if (response.statusCode == 200) {
+      print('JSON posted successfully');
+    } else {
+      print('Failed to post JSON. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error posting JSON: $e');
   }
 }
