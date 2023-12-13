@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -5,6 +6,7 @@ import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
 import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
+import 'package:geolocator/geolocator.dart';
 
 class CustomMap extends StatefulWidget {
   final double? centerLat;
@@ -21,28 +23,85 @@ class CustomMap extends StatefulWidget {
 }
 
 class _CustomMapState extends State<CustomMap> {
-  late Future<List<Floorplan>> _futureFloorplans;
-  final String noImage = "assets/no-image.jpg";
+  MapController mapController = MapController();
+  late StreamSubscription<Position> locationStreamSubscription;
+  Position? currentPosition;
+  LocationSettings settings = const LocationSettings(
+      accuracy: LocationAccuracy.best, distanceFilter: 0);
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _getFloorplans();
+    _startContinuousLocationTracking();
   }
 
-  Future<List<Floorplan>> _getFloorplans() async {
-    _futureFloorplans = fetchFloorplanList();
-    return _futureFloorplans;
+  Future<bool> _askPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next time you could try
+        // requesting permissions again (this is also where
+        // Android's shouldShowRequestPermissionRationale
+        // returned true. According to Android guidelines
+        // your App should show an explanatory UI now.
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can
+    // continue accessing the position of the device.
+    return true;
+  }
+
+  void _startContinuousLocationTracking() async {
+    try {
+      if (await _askPermission()) {
+        locationStreamSubscription = Geolocator.getPositionStream(
+          locationSettings: settings,
+        ).listen((Position position) {
+          setState(() {
+            currentPosition = position;
+          });
+        });
+      }
+    } catch (e) {
+      print("There was an excetion in _startContinuousLocationTracking(): $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    locationStreamSubscription.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FlutterMap(
-        mapController: MapController(),
+        mapController: mapController,
         options: MapOptions(
           initialCenter: LatLng(widget.centerLat ?? 51, widget.centerLon ?? 4),
+          initialCenter: LatLng(widget.centerLat, widget.centerLon),
           initialZoom: 14,
         ),
         children: [
@@ -72,7 +131,7 @@ class _CustomMapState extends State<CustomMap> {
                 }
               }),
           Padding(
-            padding: EdgeInsets.all(6),
+            padding: const EdgeInsets.all(6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -86,9 +145,32 @@ class _CustomMapState extends State<CustomMap> {
                       ),
                     );
                   },
-                  backgroundColor: Color.fromRGBO(255, 255, 255, 1.0),
+                  backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                   child: const Icon(
                     Icons.map,
+                    size: 40,
+                    color: Color.fromRGBO(30, 30, 30, 1.0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 6, 6, 15),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  heroTag: "toMyLocation",
+                  onPressed: () {
+                    mapController.move(
+                        LatLng(currentPosition!.latitude,
+                            currentPosition!.longitude),
+                        25.0);
+                  },
+                  backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+                  child: const Icon(
+                    Icons.my_location,
                     size: 40,
                     color: Color.fromRGBO(30, 30, 30, 1.0),
                   ),
