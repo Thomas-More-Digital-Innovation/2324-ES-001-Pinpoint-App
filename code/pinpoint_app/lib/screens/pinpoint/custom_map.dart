@@ -164,9 +164,9 @@ class _CustomMapState extends State<CustomMap> {
                   heroTag: "toMyLocation",
                   onPressed: () {
                     mapController.move(
-                        LatLng(currentPosition!.latitude,
-                            currentPosition!.longitude),
-                        25.0);
+                        LatLng(currentPosition?.latitude ?? widget.centerLat,
+                            currentPosition?.longitude ?? widget.centerLon),
+                        22.0);
                   },
                   backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                   child: const Icon(

@@ -5,7 +5,6 @@ import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 
 class PinPoint extends StatefulWidget {
   const PinPoint({super.key});
-
   @override
   State<PinPoint> createState() => _PinPointState();
 }
