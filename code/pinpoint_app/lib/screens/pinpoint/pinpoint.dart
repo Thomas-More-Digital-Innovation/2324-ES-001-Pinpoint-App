@@ -5,7 +5,6 @@ import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 
 class PinPoint extends StatefulWidget {
   const PinPoint({super.key});
-
   @override
   State<PinPoint> createState() => _PinPointState();
 }
@@ -24,13 +23,13 @@ class _PinPointState extends State<PinPoint> {
 
   void toggleLocationPage() {
     setState(() {
-      showLocationPage = !showLocationPage ;
+      showLocationPage = !showLocationPage;
     });
   }
 
   void toggleMapPage() {
     setState(() {
-      showMapPage = !showMapPage ;
+      showMapPage = !showMapPage;
     });
   }
 

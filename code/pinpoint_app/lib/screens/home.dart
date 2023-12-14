@@ -6,18 +6,23 @@ import 'package:pinpoint_app/screens/pinpoint/pinpoint.dart';
 import 'package:pinpoint_app/screens/search_events/search_events.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.index});
+  final int index;
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 3;
-
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation1, animation2) =>
+                Home(index: index),
+            transitionDuration: Duration(seconds: 0),
+          ));
     });
   }
 
@@ -35,7 +40,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-        body: _widgetOptions.elementAt(_selectedIndex),
+        body: _widgetOptions.elementAt(widget.index),
         bottomNavigationBar: BottomAppBar(
           height: 70,
           color: const Color.fromRGBO(161, 255, 182, 100),
@@ -45,17 +50,17 @@ class _HomeState extends State<Home> {
             children: [
               navbarIconbutton(() {
                 _onItemTapped(0);
-              }, Icons.search, _selectedIndex, 0),
+              }, Icons.search, widget.index, 0),
               navbarIconbutton(() {
                 _onItemTapped(1);
-              }, Icons.event, _selectedIndex, 1),
+              }, Icons.event, widget.index, 1),
               const SizedBox(width: 20),
               navbarIconbutton(() {
                 _onItemTapped(3);
-              }, Icons.dashboard, _selectedIndex, 3),
+              }, Icons.dashboard, widget.index, 3),
               navbarIconbutton(() {
                 _onItemTapped(4);
-              }, Icons.people, _selectedIndex, 4)
+              }, Icons.people, widget.index, 4)
             ],
           ),
         ),
