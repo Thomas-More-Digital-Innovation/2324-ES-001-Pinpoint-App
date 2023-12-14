@@ -23,6 +23,7 @@ class CustomMap extends StatefulWidget {
 }
 
 class _CustomMapState extends State<CustomMap> {
+  late Future<List<Floorplan>> _futureFloorplans;
   MapController mapController = MapController();
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
@@ -33,6 +34,12 @@ class _CustomMapState extends State<CustomMap> {
   void initState() {
     super.initState();
     _startContinuousLocationTracking();
+    _getFloorplans();
+  }
+
+  Future<List<Floorplan>> _getFloorplans() async {
+    _futureFloorplans = fetchFloorplanList();
+    return _futureFloorplans;
   }
 
   Future<bool> _askPermission() async {
@@ -101,7 +108,6 @@ class _CustomMapState extends State<CustomMap> {
         mapController: mapController,
         options: MapOptions(
           initialCenter: LatLng(widget.centerLat ?? 51, widget.centerLon ?? 4),
-          initialCenter: LatLng(widget.centerLat, widget.centerLon),
           initialZoom: 14,
         ),
         children: [
@@ -123,7 +129,8 @@ class _CustomMapState extends State<CustomMap> {
                         LatLng(floorplan.value.bottomRightLat,
                             floorplan.value.bottomRightLon),
                       ),
-                      imageProvider: NetworkImage(floorplan.value.image ?? globals.noImage),
+                      imageProvider: NetworkImage(
+                          floorplan.value.image ?? globals.noImage),
                     );
                   }).toList());
                 } else {
@@ -164,9 +171,12 @@ class _CustomMapState extends State<CustomMap> {
                   heroTag: "toMyLocation",
                   onPressed: () {
                     mapController.move(
-                        LatLng(currentPosition?.latitude ?? widget.centerLat,
-                            currentPosition?.longitude ?? widget.centerLon),
-                        22.0);
+                        LatLng(
+                            currentPosition?.latitude ?? widget.centerLat ?? 51,
+                            currentPosition?.longitude ??
+                                widget.centerLon ??
+                                4),
+                        18.0);
                   },
                   backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                   child: const Icon(

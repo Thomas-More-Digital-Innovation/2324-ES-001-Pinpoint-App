@@ -72,7 +72,7 @@ class _SearchEventsState extends State<SearchEvents> {
                                     .white, // Set the desired background color
                               ),
                               child: ClipOval(
-                                child: Image.asset(
+                                child: Image.network(
                                   floorplan.value.image ?? noImage,
                                   fit: BoxFit
                                       .cover, // Adjust the fit based on your requirement
