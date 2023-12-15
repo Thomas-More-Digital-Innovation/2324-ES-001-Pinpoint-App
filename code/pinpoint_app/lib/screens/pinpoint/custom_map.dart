@@ -2,25 +2,28 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:pinpoint_app/screens/pinpoint/custom_map_overview.dart';
+import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
+import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:geolocator/geolocator.dart';
 
-class MapTryout extends StatefulWidget {
-  final double centerLat;
-  final double centerLon;
+class CustomMap extends StatefulWidget {
+  final double? centerLat;
+  final double? centerLon;
 
-  const MapTryout({
+  CustomMap({
     Key? key,
-    required this.centerLat,
-    required this.centerLon,
+    this.centerLat,
+    this.centerLon,
   }) : super(key: key);
 
   @override
-  State<MapTryout> createState() => _MapTryoutState();
+  State<CustomMap> createState() => _CustomMapState();
 }
 
-class _MapTryoutState extends State<MapTryout> {
+class _CustomMapState extends State<CustomMap> {
+  late Future<List<Floorplan>> _futureFloorplans;
   MapController mapController = MapController();
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
@@ -31,6 +34,12 @@ class _MapTryoutState extends State<MapTryout> {
   void initState() {
     super.initState();
     _startContinuousLocationTracking();
+    _getFloorplans();
+  }
+
+  Future<List<Floorplan>> _getFloorplans() async {
+    _futureFloorplans = fetchFloorplanList();
+    return _futureFloorplans;
   }
 
   Future<bool> _askPermission() async {
@@ -98,26 +107,36 @@ class _MapTryoutState extends State<MapTryout> {
       body: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          initialCenter: LatLng(widget.centerLat, widget.centerLon),
+          initialCenter: LatLng(widget.centerLat ?? 51, widget.centerLon ?? 4),
           initialZoom: 14,
         ),
         children: [
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
-          OverlayImageLayer(
-            overlayImages: hardcodedFloorplans.map((floorplan) {
-              return OverlayImage(
-                bounds: LatLngBounds(
-                  LatLng(floorplan.location['topLeft']['lat'],
-                      floorplan.location['topLeft']['lon']),
-                  LatLng(floorplan.location['bottomRight']['lat'],
-                      floorplan.location['bottomRight']['lon']),
-                ),
-                imageProvider: AssetImage(floorplan.image),
-              );
-            }).toList(),
-          ),
+          FutureBuilder(
+              future: _futureFloorplans,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return OverlayImageLayer(
+                      overlayImages:
+                          snapshot.data!.asMap().entries.map((floorplan) {
+                    return OverlayImage(
+                      bounds: LatLngBounds(
+                        LatLng(floorplan.value.topLeftLat,
+                            floorplan.value.topLeftLon),
+                        LatLng(floorplan.value.bottomRightLat,
+                            floorplan.value.bottomRightLon),
+                      ),
+                      imageProvider: NetworkImage(
+                          floorplan.value.image ?? globals.noImage),
+                    );
+                  }).toList());
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }),
           Padding(
             padding: const EdgeInsets.all(6),
             child: Row(
@@ -129,7 +148,7 @@ class _MapTryoutState extends State<MapTryout> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CustomMapOverview(),
+                        builder: (context) => FloorplanOverview(),
                       ),
                     );
                   },
@@ -152,9 +171,12 @@ class _MapTryoutState extends State<MapTryout> {
                   heroTag: "toMyLocation",
                   onPressed: () {
                     mapController.move(
-                        LatLng(currentPosition?.latitude ?? widget.centerLat,
-                            currentPosition?.longitude ?? widget.centerLon),
-                        22.0);
+                        LatLng(
+                            currentPosition?.latitude ?? widget.centerLat ?? 51,
+                            currentPosition?.longitude ??
+                                widget.centerLon ??
+                                4),
+                        18.0);
                   },
                   backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                   child: const Icon(

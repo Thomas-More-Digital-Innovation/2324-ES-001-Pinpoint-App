@@ -1,47 +1,37 @@
 class Floorplan {
-  final String id;
+  final String? id;
   final String name;
-  final Map<String, dynamic> location;
-  final String image;
-  late final Map<String, double> topLeft;
-  late final Map<String, double> bottomRight;
+  final double topLeftLat;
+  final double topLeftLon;
+  final double bottomRightLat;
+  final double bottomRightLon;
+  final double? centerLat;
+  final double? centerLon;
+  final String? image;
 
-  Floorplan({
-    required this.id,
+  const Floorplan({
+    this.id,
     required this.name,
-    required this.location,
-    required this.image,
-  }) {
-    // Extracting coordinates from location map
-    topLeft = {
-      'lat': location['topLeft']['lat'].toDouble(),
-      'lon': location['topLeft']['lon'].toDouble(),
-    };
+    required this.topLeftLat,
+    required this.topLeftLon,
+    required this.bottomRightLat,
+    required this.bottomRightLon,
+    this.centerLat,
+    this.centerLon,
+    this.image,
+  });
 
-    bottomRight = {
-      'lat': location['bottomRight']['lat'].toDouble(),
-      'lon': location['bottomRight']['lon'].toDouble(),
-    };
+  factory Floorplan.fromJson(Map<String, dynamic> json) {
+    return Floorplan(
+      id: json['id'],
+      name: json['name'],
+      topLeftLat: json['location']['topLeft']['lat'] + 0.0,
+      topLeftLon: json['location']['topLeft']['lon'] + 0.0,
+      bottomRightLat: json['location']['bottomRight']['lat'] + 0.0,
+      bottomRightLon: json['location']['bottomRight']['lon'] + 0.0,
+      centerLat: json['center']['lat'] + 0.0,
+      centerLon: json['center']['lon'] + 0.0,
+      image: json['image'],
+    );
   }
 }
-
-List<Floorplan> hardcodedFloorplans = [
-  Floorplan(
-    id: '1',
-    name: 'Rock Werchter',
-    location: {
-      'topLeft': {'lat': 50.970008, 'lon': 4.681241},
-      'bottomRight': {'lat': 50.964636, 'lon': 4.689635},
-    },
-    image: 'assets/rw.png',
-  ),
-  Floorplan(
-    id: '2',
-    name: 'Pukkelpop',
-    location: {
-      'topLeft': {'lat': 50.965732, 'lon': 5.350469},
-      'bottomRight': {'lat': 50.952622, 'lon': 5.370038},
-    },
-    image: 'assets/pkp.png',
-  ),
-];

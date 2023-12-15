@@ -1,19 +1,17 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
-import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan model
+import 'package:pinpoint_app/models/floorplan.dart';
+import 'package:pinpoint_app/api/floorplan_calls.dart';
 
-class CustomMapAdd extends StatefulWidget {
-  final Function(Floorplan) onFloorplanCreated;
-
-  const CustomMapAdd({Key? key, required this.onFloorplanCreated})
-      : super(key: key);
+class FloorplanAdd extends StatefulWidget {
+  const FloorplanAdd({Key? key}) : super(key: key);
 
   @override
-  _CustomMapAddState createState() => _CustomMapAddState();
+  FloorplanAddState createState() => FloorplanAddState();
 }
 
-class _CustomMapAddState extends State<CustomMapAdd> {
+class FloorplanAddState extends State<FloorplanAdd> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _topLeftLatController = TextEditingController();
   final TextEditingController _topLeftLonController = TextEditingController();
@@ -162,16 +160,14 @@ class _CustomMapAddState extends State<CustomMapAdd> {
                 double.parse(_bottomRightLonController.text);
 
             final newFloorplan = Floorplan(
-              id: '', // Add auto-id generator
               name: title,
-              location: {
-                'topLeft': {'lat': topLeftLat, 'lon': topLeftLon},
-                'bottomRight': {'lat': bottomRightLat, 'lon': bottomRightLon},
-              },
+              topLeftLat: topLeftLat,
+              topLeftLon: topLeftLon,
+              bottomRightLat: bottomRightLat,
+              bottomRightLon: bottomRightLon,
               image: _imagePath,
             );
-
-            widget.onFloorplanCreated(newFloorplan);
+            postCustomMap(newFloorplan);
             Navigator.pop(context);
           },
           backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),
