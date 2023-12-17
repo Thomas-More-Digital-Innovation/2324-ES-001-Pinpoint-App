@@ -25,6 +25,7 @@ class CustomMap extends StatefulWidget {
 class _CustomMapState extends State<CustomMap> {
   late Future<List<Floorplan>> _futureFloorplans;
   MapController mapController = MapController();
+
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
   LocationSettings settings = const LocationSettings(
@@ -137,8 +138,25 @@ class _CustomMapState extends State<CustomMap> {
                   return const CircularProgressIndicator();
                 }
               }),
+              if (currentPosition != null)
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(
+                      currentPosition!.latitude, currentPosition!.longitude),
+                  width: 80,
+                  height: 80,
+                  child: const Icon(
+                    Icons.person_pin_circle,
+                    size: 60,
+                    color: Color.fromRGBO(255, 70, 70, 1),
+                    fill: 1.0,
+                  ),
+                ),
+              ],
+            ),
           Padding(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.fromLTRB(6, 40, 6, 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
