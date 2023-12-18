@@ -137,6 +137,23 @@ class _CustomMapState extends State<CustomMap> {
                   return const CircularProgressIndicator();
                 }
               }),
+          if (currentPosition != null)
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: LatLng(
+                      currentPosition!.latitude, currentPosition!.longitude),
+                  width: 80,
+                  height: 80,
+                  child: const Icon(
+                    Icons.person_pin_circle,
+                    size: 60,
+                    color: Color.fromRGBO(255, 70, 70, 1),
+                    fill: 1.0,
+                  ),
+                ),
+              ],
+            ),
           Padding(
             padding: const EdgeInsets.all(6),
             child: Row(
@@ -170,13 +187,17 @@ class _CustomMapState extends State<CustomMap> {
                 FloatingActionButton(
                   heroTag: "toMyLocation",
                   onPressed: () {
-                    mapController.move(
-                        LatLng(
-                            currentPosition?.latitude ?? widget.centerLat ?? 51,
-                            currentPosition?.longitude ??
-                                widget.centerLon ??
-                                4),
-                        18.0);
+                    if (currentPosition != null) {
+                      mapController.move(
+                          LatLng(
+                              currentPosition?.latitude ??
+                                  widget.centerLat ??
+                                  51,
+                              currentPosition?.longitude ??
+                                  widget.centerLon ??
+                                  4),
+                          18.0);
+                    }
                   },
                   backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                   child: const Icon(
