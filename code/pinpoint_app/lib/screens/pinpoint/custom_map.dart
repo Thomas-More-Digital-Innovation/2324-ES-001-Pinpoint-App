@@ -29,7 +29,7 @@ class _CustomMapState extends State<CustomMap> {
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
   LocationSettings settings = const LocationSettings(
-      accuracy: LocationAccuracy.best, distanceFilter: 0);
+      accuracy: LocationAccuracy.bestForNavigation, distanceFilter: 0);
 
   @override
   void initState() {
@@ -92,7 +92,7 @@ class _CustomMapState extends State<CustomMap> {
         });
       }
     } catch (e) {
-      print("There was an excetion in _startContinuousLocationTracking(): $e");
+      print("There was an exception in _startContinuousLocationTracking(): $e");
     }
   }
 
@@ -138,7 +138,7 @@ class _CustomMapState extends State<CustomMap> {
                   return const CircularProgressIndicator();
                 }
               }),
-              if (currentPosition != null)
+          if (currentPosition != null)
             MarkerLayer(
               markers: [
                 Marker(
