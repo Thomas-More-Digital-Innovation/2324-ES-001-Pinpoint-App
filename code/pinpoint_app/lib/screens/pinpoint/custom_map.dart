@@ -192,7 +192,7 @@ class _CustomMapState extends State<CustomMap> {
                     );
                   }).toList());
                 } else {
-                  return const CircularProgressIndicator();
+                  return const SizedBox.shrink();
                 }
               }),
           Padding(
