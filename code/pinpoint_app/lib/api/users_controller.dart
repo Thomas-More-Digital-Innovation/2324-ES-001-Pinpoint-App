@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:pinpoint_app/models/user.dart';
+import 'package:geolocator/geolocator.dart';
 
 Future<List<User>> fetchUserList() async {
-  const String apiUrl =
-      'https://pinpoint-api-poc.syand.workers.dev/'; // API URL
-
   try {
-    final response = await http.get(Uri.parse(apiUrl));
+    final response = await http.get(Uri.parse(globals.userUrl));
 
     if (response.statusCode == 200) {
       // Fetch position
@@ -28,11 +27,41 @@ Future<List<User>> fetchUserList() async {
 }
 
 Future<void> postUniqueCode(String uniqueCode) async {
-  Map<String, dynamic> jsonData = {"name": "WERKPLZ", "uniqueCode": uniqueCode};
+  Map<String, dynamic> jsonData = {
+    "name": globals.name,
+    "uniqueCode": uniqueCode
+  };
 
   try {
     final response = await http.put(
       Uri.parse("https://pinpoint-api-poc.syand.workers.dev/api/users"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(jsonData),
+    );
+
+    if (response.statusCode == 200) {
+      print('JSON posted successfully');
+    } else {
+      print('Failed to post JSON. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print('Error posting JSON: $e');
+  }
+}
+
+Future<void> postLocation(Position pos) async {
+  final name = globals.name;
+  Map<String, dynamic> jsonData = {
+    "name": name,
+    "lat": pos.latitude,
+    "lon": pos.longitude,
+  };
+
+  try {
+    final response = await http.put(
+      Uri.parse(globals.userUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

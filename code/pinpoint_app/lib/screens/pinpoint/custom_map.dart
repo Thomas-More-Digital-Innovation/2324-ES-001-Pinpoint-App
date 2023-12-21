@@ -2,9 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:pinpoint_app/models/user.dart';
 import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
 import 'package:pinpoint_app/api/floorplan_calls.dart';
+import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:geolocator/geolocator.dart';
 
@@ -12,7 +14,7 @@ class CustomMap extends StatefulWidget {
   final double? centerLat;
   final double? centerLon;
 
-  CustomMap({
+  const CustomMap({
     Key? key,
     this.centerLat,
     this.centerLon,
@@ -30,11 +32,20 @@ class _CustomMapState extends State<CustomMap> {
   LocationSettings settings = const LocationSettings(
       accuracy: LocationAccuracy.best, distanceFilter: 0);
 
+  late Future<List<User>> _futureUserList;
+  late Timer _timer;
+
   @override
   void initState() {
     super.initState();
+    _initializeData();
     _startContinuousLocationTracking();
     _getFloorplans();
+    _getPositions();
+  }
+
+  Future<void> _initializeData() async {
+    _futureUserList = fetchUserList();
   }
 
   Future<List<Floorplan>> _getFloorplans() async {
@@ -87,6 +98,7 @@ class _CustomMapState extends State<CustomMap> {
         ).listen((Position position) {
           setState(() {
             currentPosition = position;
+            postLocation(currentPosition!);
           });
         });
       }
@@ -95,8 +107,16 @@ class _CustomMapState extends State<CustomMap> {
     }
   }
 
+  void _getPositions() {
+    // Start the periodic timer
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _futureUserList = fetchUserList();
+    });
+  }
+
   @override
   void dispose() {
+    _timer.cancel();
     locationStreamSubscription.cancel();
     super.dispose();
   }
@@ -154,6 +174,27 @@ class _CustomMapState extends State<CustomMap> {
                 ),
               ],
             ),
+          FutureBuilder(
+              future: _futureUserList,
+              builder: (context, snapshot) {
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  List<User> users = snapshot.data!
+                      .where((user) => user.name != globals.name)
+                      .toList();
+                  return MarkerLayer(
+                      markers: users.asMap().entries.map((user) {
+                    return Marker(
+                      point: LatLng(user.value.lat, user.value.lon),
+                      width: 100,
+                      height: 100,
+                      child: const Icon(Icons.location_history_rounded),
+                    );
+                  }).toList());
+                } else {
+                  return const SizedBox.shrink();
+                }
+              }),
           Padding(
             padding: const EdgeInsets.all(6),
             child: Row(
