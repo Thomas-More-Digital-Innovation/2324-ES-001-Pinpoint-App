@@ -1,10 +1,30 @@
 import 'package:flutter/material.dart';
 
-class FiendsFriends extends StatelessWidget {
-  const FiendsFriends({super.key});
+class FindsFriends extends StatefulWidget {
+  const FindsFriends({super.key});
+
+  @override
+  State<FindsFriends> createState() => _FindsFriendsState();
+}
+
+class _FindsFriendsState extends State<FindsFriends> {
+  final TextEditingController _friendCodeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Center(child: Text("Find My Friends")));
+    return AlertDialog(
+      title: const Text("Find My Friends"),
+      content: TextField(
+        controller: _friendCodeController,
+      ),
+      actions: <Widget>[
+        FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Close'),
+        ),
+      ],
+    );
   }
 }

@@ -31,10 +31,10 @@ class _ContactsState extends State<Contacts> {
             alignment: Alignment.topRight,
             child: GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FiendsFriends()));
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => const FindsFriends(),
+                  );
                 },
                 child: Icon(
                   size: 50,
