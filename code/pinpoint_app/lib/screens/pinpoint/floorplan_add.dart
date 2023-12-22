@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
@@ -20,6 +21,7 @@ class FloorplanAddState extends State<FloorplanAdd> {
   final TextEditingController _bottomRightLonController =
       TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
 
   late String _imagePath = "";
 
@@ -109,6 +111,29 @@ class FloorplanAddState extends State<FloorplanAdd> {
                       decoration:
                           const InputDecoration(labelText: 'Description'),
                     ),
+                    TextField(
+                        controller: _dateController,
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.calendar_today),
+                            labelText: "Enter Date"),
+                        readOnly: true, // when true user cannot edit text
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101));
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            setState(() {
+                              _dateController.text =
+                                  formattedDate; //set foratted date to TextField value.
+                            });
+                          } else {
+                            _dateController.text = "";
+                          }
+                        }),
                     Row(
                       children: [
                         Expanded(
