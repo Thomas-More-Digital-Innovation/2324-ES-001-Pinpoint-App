@@ -19,6 +19,7 @@ class FloorplanAddState extends State<FloorplanAdd> {
       TextEditingController();
   final TextEditingController _bottomRightLonController =
       TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   late String _imagePath = "";
 
@@ -102,6 +103,11 @@ class FloorplanAddState extends State<FloorplanAdd> {
                     TextFormField(
                       controller: _titleController,
                       decoration: const InputDecoration(labelText: 'Title'),
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration:
+                          const InputDecoration(labelText: 'Description'),
                     ),
                     Row(
                       children: [
