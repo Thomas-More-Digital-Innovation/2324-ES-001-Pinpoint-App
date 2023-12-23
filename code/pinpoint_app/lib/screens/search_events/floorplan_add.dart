@@ -35,6 +35,7 @@ class FloorplanAddState extends State<FloorplanAdd> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      maintainBottomViewPadding: true,
       child: AlertDialog(
         title: const Text("Add a floorplan"),
         content: Column(
@@ -53,12 +54,7 @@ class FloorplanAddState extends State<FloorplanAdd> {
                             ),
                           ),
                         )
-                      : Container(
-                          decoration: BoxDecoration(color: Colors.grey[900]),
-                          child: const Center(
-                              child: Icon(Icons.image,
-                                  size: 350, color: Colors.red)),
-                        ),
+                      : const SizedBox.shrink(),
                   Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
