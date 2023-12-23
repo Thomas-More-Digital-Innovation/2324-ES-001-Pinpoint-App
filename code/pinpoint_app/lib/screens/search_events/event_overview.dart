@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/models/event.dart';
-import 'package:pinpoint_app/screens/pinpoint/event_add.dart';
+import 'package:pinpoint_app/screens/search_events/event_add.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
 
 class EventOverview extends StatefulWidget {

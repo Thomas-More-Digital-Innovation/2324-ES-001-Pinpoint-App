@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:pinpoint_app/models/event.dart';
-import 'package:pinpoint_app/screens/pinpoint/event_overview.dart';
+import 'package:pinpoint_app/screens/search_events/event_overview.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 
 class SearchEvents extends StatefulWidget {

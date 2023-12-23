@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/screens/pinpoint/floorplan_add.dart';
+import 'package:pinpoint_app/screens/search_events/floorplan_add.dart';
 
 class EventAdd extends StatefulWidget {
   const EventAdd({Key? key}) : super(key: key);
@@ -145,6 +145,7 @@ class EventAddState extends State<EventAdd> {
                         setState(() {
                           _floorplan = newFloorplan;
                         });
+                        print(_floorplan);
                       },
                       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                       child: const Icon(
