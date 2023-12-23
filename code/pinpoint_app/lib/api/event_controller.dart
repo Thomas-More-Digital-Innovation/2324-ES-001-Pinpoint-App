@@ -12,8 +12,9 @@ Future<List<Event>> fetchEventList() async {
       // Fetch position
       Iterable events = jsonDecode(response.body);
 
-      List<Event> eventList =
-          events.map((model) => Event.fromJson(model)).toList();
+      List<Event> eventList = events.map((model) {
+        return Event.fromJson(model);
+      }).toList();
 
       return Future.value(eventList);
     } else {

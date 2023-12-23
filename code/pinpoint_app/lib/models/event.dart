@@ -21,12 +21,15 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
-        id: json['id'],
-        title: json['title'],
-        description: json['description'],
-        startDate: json['startDate'],
-        endDate: json['endDate'],
-        image: json['image'],
-        floorplan: Floorplan.fromJson(json['floorplan']));
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      startDate: json['startDate'],
+      endDate: json['endDate'],
+      image: json['image'],
+      floorplan: json['floorplan'] != null
+          ? Floorplan.fromJson(json['floorplan'])
+          : null,
+    );
   }
 }

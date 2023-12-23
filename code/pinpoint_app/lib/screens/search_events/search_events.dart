@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
-import 'package:pinpoint_app/globals.dart';
+import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/screens/pinpoint/event_overview.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
@@ -13,7 +13,7 @@ class SearchEvents extends StatefulWidget {
 }
 
 class _SearchEventsState extends State<SearchEvents> {
-  late Future<List<Event>> _futureFloorplans;
+  late Future<List<Event>> _futureEvents;
 
   @override
   void initState() {
@@ -22,8 +22,8 @@ class _SearchEventsState extends State<SearchEvents> {
   }
 
   Future<List<Event>> _getEvents() async {
-    _futureFloorplans = fetchEventList();
-    return _futureFloorplans;
+    _futureEvents = fetchEventList();
+    return _futureEvents;
   }
 
   @override
@@ -44,13 +44,13 @@ class _SearchEventsState extends State<SearchEvents> {
                 );
               },
               backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-              child: const Text("Add Map"),
+              child: const Text("Add Event"),
             ),
             const SizedBox(
               height: 10.0,
             ),
             FutureBuilder(
-              future: _futureFloorplans,
+              future: _futureEvents,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
@@ -96,7 +96,7 @@ class _SearchEventsState extends State<SearchEvents> {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      event.value.image ?? noImage,
+                                      event.value.image ?? globals.noImage,
                                       fit: BoxFit.cover,
                                     ),
                                   ),

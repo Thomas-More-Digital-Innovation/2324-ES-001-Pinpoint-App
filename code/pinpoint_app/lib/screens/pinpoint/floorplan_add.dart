@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/api/floorplan_calls.dart';
 
 class FloorplanAdd extends StatefulWidget {
   const FloorplanAdd({Key? key}) : super(key: key);
