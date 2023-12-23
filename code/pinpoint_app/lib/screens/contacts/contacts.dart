@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/components/button.dart';
+import 'package:pinpoint_app/screens/contacts/find_friends.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -23,14 +24,28 @@ class _ContactsState extends State<Contacts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding:
-            const EdgeInsets.only(top: 60, bottom: 60, left: 30, right: 30),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            alignment: Alignment.topRight,
+            child: GestureDetector(
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => const FindsFriends(),
+                  );
+                },
+                child: Icon(
+                  size: 50,
+                  color: Colors.green[800],
+                  Icons.person_add_alt_1_sharp,
+                )),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 15, bottom: 60, left: 30, right: 30),
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ButtonWidget(
@@ -61,9 +76,8 @@ class _ContactsState extends State<Contacts> {
                     : const SizedBox.shrink(),
               ],
             ),
-            const Text("Contacts"),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
