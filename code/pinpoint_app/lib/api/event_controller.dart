@@ -29,22 +29,32 @@ Future<List<Event>> fetchEventList() async {
 
 Future<void> postNewEvent(Event newEvent) async {
   try {
-    final imageResponse = await http.post(
-        Uri.parse("${globals.imageUrl}${newEvent.image}"),
-        headers: <String, String>{},
-        body: File(newEvent.image!).readAsBytesSync());
+    late String image = globals.noImage;
+    late String floorplanImage = globals.noImage;
 
-    final floorplanResponse = await http.post(
-        Uri.parse("${globals.imageUrl}${newEvent.floorplan?.image}"),
-        headers: <String, String>{},
-        body: File(newEvent.floorplan!.image!).readAsBytesSync());
+    if (newEvent.image != null && newEvent.image!.isNotEmpty) {
+      final imageResponse = await http.post(
+          Uri.parse("${globals.imageUrl}${newEvent.image}"),
+          headers: <String, String>{},
+          body: File(newEvent.image!).readAsBytesSync());
+      image = imageResponse.body;
+    }
+
+    if (newEvent.floorplan?.image != null &&
+        newEvent.floorplan!.image!.isNotEmpty) {
+      final floorplanResponse = await http.post(
+          Uri.parse("${globals.imageUrl}${newEvent.floorplan?.image}"),
+          headers: <String, String>{},
+          body: File(newEvent.floorplan!.image!).readAsBytesSync());
+      floorplanImage = floorplanResponse.body;
+    }
 
     Map<String, dynamic> jsonData = {
       "title": newEvent.title,
       "description": newEvent.description,
       "startDate": newEvent.startDate,
       "endDate": newEvent.endDate,
-      "image": imageResponse.body,
+      "image": image,
       "floorplan": {
         "location": {
           "topLeft": {
@@ -55,7 +65,7 @@ Future<void> postNewEvent(Event newEvent) async {
             "lat": newEvent.floorplan?.bottomRightLat,
             "lon": newEvent.floorplan?.bottomRightLon,
           },
-          "image": floorplanResponse.body,
+          "image": floorplanImage,
         },
       }
     };

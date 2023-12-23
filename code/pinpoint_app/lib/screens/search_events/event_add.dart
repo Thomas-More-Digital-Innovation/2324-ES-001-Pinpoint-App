@@ -39,9 +39,7 @@ class EventAddState extends State<EventAdd> {
     return SafeArea(
       child: Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Expanded(
               child: Stack(
                 children: [
@@ -145,7 +143,6 @@ class EventAddState extends State<EventAdd> {
                         setState(() {
                           _floorplan = newFloorplan;
                         });
-                        print(_floorplan);
                       },
                       backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
                       child: const Icon(
