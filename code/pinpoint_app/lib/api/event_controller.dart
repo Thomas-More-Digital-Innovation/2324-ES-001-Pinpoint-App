@@ -42,24 +42,26 @@ Future<void> postNewEvent(Event newEvent) async {
     Map<String, dynamic> jsonData = {
       "title": newEvent.title,
       "description": newEvent.description,
+      "startDate": newEvent.startDate,
+      "endDate": newEvent.endDate,
+      "image": imageResponse.body,
       "floorplan": {
         "location": {
           "topLeft": {
             "lat": newEvent.floorplan?.topLeftLat,
-            "lon": newEvent.floorplan?.topLeftLon
+            "lon": newEvent.floorplan?.topLeftLon,
           },
           "bottomRight": {
             "lat": newEvent.floorplan?.bottomRightLat,
-            "lon": newEvent.floorplan?.bottomRightLon
+            "lon": newEvent.floorplan?.bottomRightLon,
           },
-          "image": floorplanResponse.body
+          "image": floorplanResponse.body,
         },
-      },
-      "image": imageResponse.body
+      }
     };
 
     final response = await http.post(
-      Uri.parse(globals.floorplanUrl),
+      Uri.parse(globals.eventUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
