@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/globals.dart';
-import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
+import 'package:pinpoint_app/models/event.dart';
+import 'package:pinpoint_app/screens/pinpoint/event_overview.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
-import 'package:pinpoint_app/api/floorplan_calls.dart';
 
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
@@ -13,16 +13,16 @@ class SearchEvents extends StatefulWidget {
 }
 
 class _SearchEventsState extends State<SearchEvents> {
-  late Future<List<Floorplan>> _futureFloorplans;
+  late Future<List<Event>> _futureFloorplans;
 
   @override
   void initState() {
     super.initState();
-    _getFloorplans();
+    _getEvents();
   }
 
-  Future<List<Floorplan>> _getFloorplans() async {
-    _futureFloorplans = fetchFloorplanList();
+  Future<List<Event>> _getEvents() async {
+    _futureFloorplans = fetchEventList();
     return _futureFloorplans;
   }
 
@@ -39,16 +39,12 @@ class _SearchEventsState extends State<SearchEvents> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => FloorplanOverview(),
+                    builder: (context) => const EventOverview(),
                   ),
                 );
               },
               backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-              child: const Icon(
-                Icons.map,
-                size: 40,
-                color: Color.fromRGBO(30, 30, 30, 1.0),
-              ),
+              child: const Text("Add Map"),
             ),
             const SizedBox(
               height: 10.0,
@@ -59,15 +55,15 @@ class _SearchEventsState extends State<SearchEvents> {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   return Column(
-                    children: snapshot.data!.asMap().entries.map((floorplan) {
+                    children: snapshot.data!.asMap().entries.map((event) {
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => CustomMap(
-                                centerLat: floorplan.value.centerLat,
-                                centerLon: floorplan.value.centerLon,
+                                centerLat: event.value.floorplan?.centerLat,
+                                centerLon: event.value.floorplan?.centerLon,
                               ),
                             ),
                           );
@@ -100,7 +96,7 @@ class _SearchEventsState extends State<SearchEvents> {
                                   ),
                                   child: ClipOval(
                                     child: Image.network(
-                                      floorplan.value.image ?? noImage,
+                                      event.value.image ?? noImage,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -108,7 +104,7 @@ class _SearchEventsState extends State<SearchEvents> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(floorplan.value.name),
+                                Text(event.value.title),
                               ],
                             ),
                           ),

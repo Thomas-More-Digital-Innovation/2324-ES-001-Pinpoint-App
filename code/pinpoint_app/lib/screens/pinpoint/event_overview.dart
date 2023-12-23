@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:pinpoint_app/api/floorplan_calls.dart';
-import 'package:pinpoint_app/screens/pinpoint/floorplan_add.dart';
+import 'package:pinpoint_app/api/event_controller.dart';
+import 'package:pinpoint_app/models/event.dart';
+import 'package:pinpoint_app/screens/pinpoint/event_add.dart';
 import 'package:pinpoint_app/models/floorplan.dart'; // Import your Floorplan model
 import 'package:pinpoint_app/globals.dart' as globals;
 
-class FloorplanOverview extends StatefulWidget {
+class EventOverview extends StatefulWidget {
+  const EventOverview({super.key});
+
   @override
-  _FloorplanOverviewState createState() => _FloorplanOverviewState();
+  _EventOverviewState createState() => _EventOverviewState();
 }
 
-class _FloorplanOverviewState extends State<FloorplanOverview> {
-  late Future<List<Floorplan>> _futureFloorplans;
+class _EventOverviewState extends State<EventOverview> {
+  late Future<List<Event>> _futureEvents;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getFloorplans();
   }
 
-  Future<List<Floorplan>> _getFloorplans() async {
-    _futureFloorplans = fetchFloorplanList();
-    return _futureFloorplans;
+  Future<List<Event>> _getFloorplans() async {
+    _futureEvents = fetchEventList();
+    return _futureEvents;
   }
 
   @override
@@ -60,7 +62,7 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FloorplanAdd(),
+                              builder: (context) => const EventAdd(),
                             ),
                           );
                         },
@@ -76,13 +78,12 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
             ),
             Expanded(
               child: FutureBuilder(
-                  future: _futureFloorplans,
+                  future: _futureEvents,
                   builder: (context, snapshot) {
                     if (snapshot.hasData &&
                         snapshot.connectionState == ConnectionState.done) {
                       return ListView(
-                        children:
-                            snapshot.data!.asMap().entries.map((floorplan) {
+                        children: snapshot.data!.asMap().entries.map((event) {
                           return Container(
                             margin: const EdgeInsets.only(
                                 left: 10, right: 10, top: 10),
@@ -104,7 +105,7 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
                                     child: Image.network(
-                                      floorplan.value.image ?? globals.noImage,
+                                      event.value.image ?? globals.noImage,
                                       fit: BoxFit.cover,
                                       width: 150,
                                       height: 150,
@@ -117,7 +118,7 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            floorplan.value.name,
+                                            event.value.title,
                                             style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w700),
@@ -134,9 +135,9 @@ class _FloorplanOverviewState extends State<FloorplanOverview> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                    "Top Left: ${floorplan.value.topLeftLat}, ${floorplan.value.topLeftLon}"),
+                                                    "Top Left: ${event.value.floorplan?.topLeftLat}, ${event.value.floorplan?.topLeftLon}"),
                                                 Text(
-                                                    "Bottom Right: ${floorplan.value.bottomRightLat}, ${floorplan.value.bottomRightLon}"),
+                                                    "Bottom Right: ${event.value.floorplan?.bottomRightLat}, ${event.value.floorplan?.bottomRightLon}"),
                                               ],
                                             ),
                                           ),

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
@@ -13,15 +12,12 @@ class FloorplanAdd extends StatefulWidget {
 }
 
 class FloorplanAddState extends State<FloorplanAdd> {
-  final TextEditingController _titleController = TextEditingController();
   final TextEditingController _topLeftLatController = TextEditingController();
   final TextEditingController _topLeftLonController = TextEditingController();
   final TextEditingController _bottomRightLatController =
       TextEditingController();
   final TextEditingController _bottomRightLonController =
       TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _dateController = TextEditingController();
 
   late String _imagePath = "";
 
@@ -40,8 +36,9 @@ class FloorplanAddState extends State<FloorplanAdd> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-        body: Column(
+      child: AlertDialog(
+        title: const Text("Add a floorplan"),
+        content: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
@@ -102,38 +99,6 @@ class FloorplanAddState extends State<FloorplanAdd> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    TextFormField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(labelText: 'Title'),
-                    ),
-                    TextFormField(
-                      controller: _descriptionController,
-                      decoration:
-                          const InputDecoration(labelText: 'Description'),
-                    ),
-                    TextField(
-                        controller: _dateController,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today),
-                            labelText: "Enter Date"),
-                        readOnly: true, // when true user cannot edit text
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2101));
-                          if (pickedDate != null) {
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate);
-                            setState(() {
-                              _dateController.text =
-                                  formattedDate; //set foratted date to TextField value.
-                            });
-                          } else {
-                            _dateController.text = "";
-                          }
-                        }),
                     Row(
                       children: [
                         Expanded(
@@ -180,35 +145,36 @@ class FloorplanAddState extends State<FloorplanAdd> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            final String title = _titleController.text;
-            final double topLeftLat = double.parse(_topLeftLatController.text);
-            final double topLeftLon = double.parse(_topLeftLonController.text);
-            final double bottomRightLat =
-                double.parse(_bottomRightLatController.text);
-            final double bottomRightLon =
-                double.parse(_bottomRightLonController.text);
+        actions: [
+          FloatingActionButton(
+            onPressed: () {
+              final double topLeftLat =
+                  double.parse(_topLeftLatController.text);
+              final double topLeftLon =
+                  double.parse(_topLeftLonController.text);
+              final double bottomRightLat =
+                  double.parse(_bottomRightLatController.text);
+              final double bottomRightLon =
+                  double.parse(_bottomRightLonController.text);
 
-            final newFloorplan = Floorplan(
-              name: title,
-              topLeftLat: topLeftLat,
-              topLeftLon: topLeftLon,
-              bottomRightLat: bottomRightLat,
-              bottomRightLon: bottomRightLon,
-              image: _imagePath,
-            );
-            postCustomMap(newFloorplan);
-            Navigator.pop(context);
-          },
-          backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),
-          child: const Icon(
-            Icons.check,
-            color: Color.fromRGBO(161, 255, 182, 100),
-            size: 35,
+              final newFloorplan = Floorplan(
+                topLeftLat: topLeftLat,
+                topLeftLon: topLeftLon,
+                bottomRightLat: bottomRightLat,
+                bottomRightLon: bottomRightLon,
+                image: _imagePath,
+              );
+              // postCustomMap(newFloorplan);
+              Navigator.pop(context, newFloorplan);
+            },
+            backgroundColor: const Color.fromRGBO(30, 30, 30, 1.0),
+            child: const Icon(
+              Icons.check,
+              color: Color.fromRGBO(161, 255, 182, 100),
+              size: 35,
+            ),
           ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        ],
       ),
     );
   }
