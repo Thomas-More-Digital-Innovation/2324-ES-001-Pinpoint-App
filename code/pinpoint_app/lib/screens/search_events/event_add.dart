@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_date_range_picker/flutter_date_range_picker.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
@@ -22,6 +21,8 @@ class EventAddState extends State<EventAdd> {
 
   late String _imagePath = "";
   Floorplan? _floorplan;
+  late String? _startDate = null;
+  late String? _endDate = null;
 
   // Function to handle image selection
   Future<void> _pickImage(ImageSource source) async {
@@ -108,28 +109,30 @@ class EventAddState extends State<EventAdd> {
                           const InputDecoration(labelText: 'Description'),
                     ),
                     TextField(
-                        controller: _dateController,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.calendar_today),
-                            labelText: "Enter Date"),
-                        readOnly: true, // when true user cannot edit text
-                        onTap: () async {
-                          DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2000),
-                              lastDate: DateTime(2101));
-                          if (pickedDate != null) {
-                            String formattedDate =
-                                DateFormat('yyyy-MM-dd').format(pickedDate);
-                            setState(() {
-                              _dateController.text =
-                                  formattedDate; //set foratted date to TextField value.
-                            });
-                          } else {
-                            _dateController.text = "";
-                          }
-                        }),
+                      controller: _dateController,
+                      decoration: const InputDecoration(
+                          icon: Icon(Icons.calendar_today),
+                          labelText: "Enter Date"),
+                      readOnly: true, // when true user cannot edit text
+                      onTap: () async {
+                        final picked = await showDateRangePicker(
+                          context: context,
+                          lastDate: DateTime(2101),
+                          firstDate: DateTime.now(),
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            _startDate =
+                                DateFormat('yyyy/MM/dd').format(picked.start);
+                            _endDate =
+                                DateFormat('yyyy/MM/dd').format(picked.end);
+                            _dateController.text = "$_startDate - $_endDate";
+                          });
+                        } else {
+                          _dateController.text = "";
+                        }
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
@@ -162,14 +165,12 @@ class EventAddState extends State<EventAdd> {
           onPressed: () {
             final String title = _titleController.text;
             final String description = _descriptionController.text;
-            final String startDate = _dateController.text;
-            final String endDate = _dateController.text;
 
             final newEvent = Event(
                 title: title,
                 description: description,
-                startDate: startDate,
-                endDate: endDate,
+                startDate: _startDate,
+                endDate: _endDate,
                 image: _imagePath,
                 floorplan: _floorplan);
             postNewEvent(newEvent);
