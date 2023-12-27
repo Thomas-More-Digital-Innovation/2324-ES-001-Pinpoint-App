@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
+import 'package:pinpoint_app/models/user.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:pinpoint_app/services/user_provider.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -14,6 +17,7 @@ class Contacts extends StatefulWidget {
 class _ContactsState extends State<Contacts> {
   String? uniqueCode;
   bool showQr = false;
+  bool showAll = true;
 
   void _generateUniqueCode() {
     var uuid = const Uuid();
@@ -27,8 +31,22 @@ class _ContactsState extends State<Contacts> {
     });
   }
 
+  void toggleShowAllOn() {
+    setState(() {
+      showAll = true;
+    });
+  }
+
+  void toggleShowAllOff() {
+    setState(() {
+      showAll = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<UserProvider>(context);
+
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scaffold(
@@ -37,21 +55,6 @@ class _ContactsState extends State<Contacts> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Container(
-                //   alignment: Alignment.topRight,
-                //   child: GestureDetector(
-                //       onTap: () {
-                //         showDialog(
-                //           context: context,
-                //           builder: (BuildContext context) => const FindsFriends(),
-                //         );
-                //       },
-                //       child: Icon(
-                //         size: 50,
-                //         color: Colors.green[800],
-                //         Icons.person_add_alt_1_sharp,
-                //       )),
-                // ),
                 Expanded(
                   flex: 1,
                   child: Center(
@@ -102,10 +105,50 @@ class _ContactsState extends State<Contacts> {
                   ),
                 ),
                 Expanded(
-                  child: Container(
-                    color: Colors.red,
-                  ),
                   flex: 3,
+                  child: Container(
+                      color: Colors.red,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                    onTap: () => toggleShowAllOn(),
+                                    child: Text("All contacts",
+                                        style: TextStyle(fontSize: 20))),
+                                GestureDetector(
+                                    onTap: () => toggleShowAllOff(),
+                                    child: Text("Add contacts",
+                                        style: TextStyle(fontSize: 20)))
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                              child: showAll
+                                  ? FutureBuilder(
+                                      future: dataProvider.fetchData(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (snapshot.hasError) {
+                                          return Center(
+                                              child: Text(
+                                                  'Error: ${snapshot.error}'));
+                                        } else {
+                                          return YourDataListView(
+                                              data: dataProvider.userList);
+                                        }
+                                      },
+                                    )
+                                  : Center(child: Text("add users")))
+                        ],
+                      )),
                 )
               ],
             ),
@@ -143,6 +186,27 @@ class _ContactsState extends State<Contacts> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class YourDataListView extends StatelessWidget {
+  final List<User> data;
+
+  const YourDataListView({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    // Use the fetched data to display in your UI
+    print(data.length);
+    return ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(data[index].name),
+          // Display other properties accordingly
+        );
+      },
     );
   }
 }
