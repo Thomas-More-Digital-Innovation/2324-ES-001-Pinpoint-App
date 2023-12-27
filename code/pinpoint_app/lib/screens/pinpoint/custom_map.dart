@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pinpoint_app/models/user.dart';
-import 'package:pinpoint_app/screens/pinpoint/floorplan_overview.dart';
 import 'package:pinpoint_app/models/floorplan.dart';
 import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
@@ -196,33 +195,8 @@ class _CustomMapState extends State<CustomMap> {
                 }
               }),
           Padding(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(8.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                FloatingActionButton(
-                  heroTag: "toMapMenu",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FloorplanOverview(),
-                      ),
-                    );
-                  },
-                  backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-                  child: const Icon(
-                    Icons.map,
-                    size: 40,
-                    color: Color.fromRGBO(30, 30, 30, 1.0),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(6, 6, 6, 15),
-            child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 FloatingActionButton(

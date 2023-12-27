@@ -34,7 +34,7 @@ Future<void> postUniqueCode(String uniqueCode) async {
 
   try {
     final response = await http.put(
-      Uri.parse("https://pinpoint-api-poc.syand.workers.dev/api/users"),
+      Uri.parse(globals.userUrl),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

@@ -5,6 +5,7 @@ import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
 
+
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
 

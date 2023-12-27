@@ -34,7 +34,6 @@ Future<void> postCustomMap(Floorplan newFloorPlan) async {
         body: File(newFloorPlan.image!).readAsBytesSync());
 
     Map<String, dynamic> jsonData = {
-      "name": newFloorPlan.name,
       "location": {
         "topLeft": {
           "lat": newFloorPlan.topLeftLat,

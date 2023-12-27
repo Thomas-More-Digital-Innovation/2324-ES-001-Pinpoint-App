@@ -1,6 +1,4 @@
 class Floorplan {
-  final String? id;
-  final String name;
   final double topLeftLat;
   final double topLeftLon;
   final double bottomRightLat;
@@ -10,8 +8,6 @@ class Floorplan {
   final String? image;
 
   const Floorplan({
-    this.id,
-    required this.name,
     required this.topLeftLat,
     required this.topLeftLon,
     required this.bottomRightLat,
@@ -23,8 +19,6 @@ class Floorplan {
 
   factory Floorplan.fromJson(Map<String, dynamic> json) {
     return Floorplan(
-      id: json['id'],
-      name: json['name'],
       topLeftLat: json['location']['topLeft']['lat'] + 0.0,
       topLeftLon: json['location']['topLeft']['lon'] + 0.0,
       bottomRightLat: json['location']['bottomRight']['lat'] + 0.0,
