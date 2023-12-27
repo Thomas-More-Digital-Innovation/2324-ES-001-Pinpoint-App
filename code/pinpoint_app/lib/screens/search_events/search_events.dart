@@ -5,7 +5,6 @@ import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
 
-
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
 
@@ -15,6 +14,7 @@ class SearchEvents extends StatefulWidget {
 
 class _SearchEventsState extends State<SearchEvents> {
   late Future<List<Event>> _futureEvents;
+  TextEditingController searchBarController = TextEditingController();
 
   @override
   void initState() {
@@ -27,6 +27,12 @@ class _SearchEventsState extends State<SearchEvents> {
     return _futureEvents;
   }
 
+  Future<void> _searchForEvent(String startsWith) async {
+    setState(() {
+      _futureEvents = searchEvent(startsWith);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +41,7 @@ class _SearchEventsState extends State<SearchEvents> {
         child: ListView(
           children: [
             FloatingActionButton(
-              heroTag: "toMapMenu",
+              heroTag: "toAddEvent",
               onPressed: () {
                 Navigator.push(
                   context,
@@ -47,9 +53,16 @@ class _SearchEventsState extends State<SearchEvents> {
               backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
               child: const Text("Add Event"),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SearchBar(
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 16.0)),
+                  leading: const Icon(Icons.search),
+                  onSubmitted: (value) {
+                    _searchForEvent(value);
+                  },
+                )),
             FutureBuilder(
               future: _futureEvents,
               builder: (context, snapshot) {
