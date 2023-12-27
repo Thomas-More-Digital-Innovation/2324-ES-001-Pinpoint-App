@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:pinpoint_app/models/event.dart';
+import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
-import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
+
 
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
@@ -61,9 +62,8 @@ class _SearchEventsState extends State<SearchEvents> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CustomMap(
-                                centerLat: event.value.floorplan?.centerLat,
-                                centerLon: event.value.floorplan?.centerLon,
+                              builder: (context) => EventDetails(
+                                event: event.value,
                               ),
                             ),
                           );
