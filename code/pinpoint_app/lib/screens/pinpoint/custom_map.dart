@@ -32,7 +32,6 @@ class _CustomMapState extends State<CustomMap> {
   LocationSettings settings = const LocationSettings(
       accuracy: LocationAccuracy.best, distanceFilter: 0);
 
-  late Future<List<Floorplan>> _futureFloorplans;
   late Future<List<User>> _futureUserList;
   late Future<List<Event>> _futureEvents;
   late Timer _timer;
@@ -42,17 +41,12 @@ class _CustomMapState extends State<CustomMap> {
     super.initState();
     _initializeData();
     _startContinuousLocationTracking();
-    _getFloorplans();
     _getPositions();
   }
 
   Future<void> _initializeData() async {
     _futureUserList = fetchUserList();
     _futureEvents = fetchEventList();
-  }
-
-  Future<void> _getFloorplans() async {
-    _futureFloorplans = fetchFloorplanList();
   }
 
   Future<bool> _askPermission() async {
