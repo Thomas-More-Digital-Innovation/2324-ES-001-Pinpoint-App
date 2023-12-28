@@ -6,6 +6,7 @@ import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
 
@@ -16,6 +17,7 @@ class SearchEvents extends StatefulWidget {
 class _SearchEventsState extends State<SearchEvents> {
   late Future<List<Event>> _futureEvents;
   late List<String>? _eventList;
+  TextEditingController searchBarController = TextEditingController();
 
   @override
   void initState() {
@@ -51,6 +53,10 @@ class _SearchEventsState extends State<SearchEvents> {
     prefs.setStringList("savedEvents", eventList ?? []);
     setState(() {
       _getSavedEvents();
+
+  Future<void> _searchForEvent(String startsWith) async {
+    setState(() {
+      _futureEvents = searchEvent(startsWith);
     });
   }
 
@@ -62,7 +68,7 @@ class _SearchEventsState extends State<SearchEvents> {
         child: ListView(
           children: [
             FloatingActionButton(
-              heroTag: "toMapMenu",
+              heroTag: "toAddEvent",
               onPressed: () {
                 Navigator.push(
                   context,
@@ -74,9 +80,16 @@ class _SearchEventsState extends State<SearchEvents> {
               backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
               child: const Text("Add Event"),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SearchBar(
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 16.0)),
+                  leading: const Icon(Icons.search),
+                  onSubmitted: (value) {
+                    _searchForEvent(value);
+                  },
+                )),
             FutureBuilder(
               future: _futureEvents,
               builder: (context, snapshot) {

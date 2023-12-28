@@ -27,6 +27,31 @@ Future<List<Event>> fetchEventList() async {
   }
 }
 
+Future<List<Event>> searchEvent(String startsWith) async {
+  try {
+    final response = await http.get(
+      Uri.parse("${globals.eventUrl}?title=$startsWith"),
+    );
+
+    if (response.statusCode == 200) {
+      // Fetch position
+      Iterable events = jsonDecode(response.body);
+
+      List<Event> eventList = events.map((model) {
+        return Event.fromJson(model);
+      }).toList();
+
+      return Future.value(eventList);
+    } else {
+      print("Request failed with status: ${response.statusCode}");
+      throw Exception('Failed to load data');
+    }
+  } catch (e) {
+    print("Request failed with exception: $e");
+    throw Exception('Failed to load data');
+  }
+}
+
 Future<void> postNewEvent(Event newEvent) async {
   try {
     late String image = globals.noImage;
