@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:pinpoint_app/api/event_controller.dart';
+import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/models/user.dart';
-import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
-import 'package:geolocator/geolocator.dart';
 
 class CustomMap extends StatefulWidget {
   final double? centerLat;
@@ -24,7 +24,6 @@ class CustomMap extends StatefulWidget {
 }
 
 class _CustomMapState extends State<CustomMap> {
-  late Future<List<Floorplan>> _futureFloorplans;
   MapController mapController = MapController();
   late StreamSubscription<Position> locationStreamSubscription;
   Position? currentPosition;
@@ -32,6 +31,7 @@ class _CustomMapState extends State<CustomMap> {
       accuracy: LocationAccuracy.best, distanceFilter: 0);
 
   late Future<List<User>> _futureUserList;
+  late Future<List<Event>> _futureEvents;
   late Timer _timer;
 
   @override
@@ -39,17 +39,12 @@ class _CustomMapState extends State<CustomMap> {
     super.initState();
     _initializeData();
     _startContinuousLocationTracking();
-    _getFloorplans();
     _getPositions();
   }
 
   Future<void> _initializeData() async {
     _futureUserList = fetchUserList();
-  }
-
-  Future<List<Floorplan>> _getFloorplans() async {
-    _futureFloorplans = fetchFloorplanList();
-    return _futureFloorplans;
+    _futureEvents = fetchEventList();
   }
 
   Future<bool> _askPermission() async {
@@ -134,22 +129,22 @@ class _CustomMapState extends State<CustomMap> {
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           ),
           FutureBuilder(
-              future: _futureFloorplans,
+              future: _futureEvents,
               builder: (context, snapshot) {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   return OverlayImageLayer(
                       overlayImages:
-                          snapshot.data!.asMap().entries.map((floorplan) {
+                          snapshot.data!.asMap().entries.map((event) {
                     return OverlayImage(
                       bounds: LatLngBounds(
-                        LatLng(floorplan.value.topLeftLat,
-                            floorplan.value.topLeftLon),
-                        LatLng(floorplan.value.bottomRightLat,
-                            floorplan.value.bottomRightLon),
+                        LatLng(event.value.floorplan?.topLeftLat ?? 51.2,
+                            event.value.floorplan?.topLeftLon ?? 51.2),
+                        LatLng(event.value.floorplan?.bottomRightLat ?? 51.2,
+                            event.value.floorplan?.bottomRightLon ?? 51.2),
                       ),
                       imageProvider: NetworkImage(
-                          floorplan.value.image ?? globals.noImage),
+                          event.value.floorplan?.image ?? globals.noImage),
                     );
                   }).toList());
                 } else {
