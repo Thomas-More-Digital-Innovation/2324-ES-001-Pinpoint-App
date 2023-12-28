@@ -87,7 +87,7 @@ class _ContactsState extends State<Contacts> {
                                       uniqueCode != null
                                           ? uniqueCode!
                                           : "Generate new code",
-                                      style: TextStyle(fontSize: 20),
+                                      style: const TextStyle(fontSize: 20),
                                     ),
                                   ),
                                   DropdownButton<String>(
@@ -108,7 +108,7 @@ class _ContactsState extends State<Contacts> {
                                     }).toList(),
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.copy),
+                                    icon: const Icon(Icons.copy),
                                     onPressed: uniqueCode != null
                                         ? () async {
                                             await Clipboard.setData(
@@ -118,7 +118,7 @@ class _ContactsState extends State<Contacts> {
                                         : () {},
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.qr_code),
+                                    icon: const Icon(Icons.qr_code),
                                     onPressed: () => toggleShowQr(),
                                   )
                                 ],
@@ -203,18 +203,18 @@ class _ContactsState extends State<Contacts> {
                                                     const EdgeInsets.all(8.0),
                                                 width: double.infinity,
                                                 height: 60,
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     50, 50, 50, 1.0),
                                                 child: Row(children: [
                                                   Expanded(
                                                     child: Text(
                                                       user.value.name,
-                                                      style: TextStyle(
+                                                      style: const TextStyle(
                                                           color: Colors.white),
                                                     ),
                                                   ),
                                                   IconButton(
-                                                    icon: Icon(
+                                                    icon: const Icon(
                                                         Icons.location_on,
                                                         color: Color.fromRGBO(
                                                             255, 70, 70, 1)),
@@ -234,14 +234,17 @@ class _ContactsState extends State<Contacts> {
                                                     },
                                                   ),
                                                   IconButton(
-                                                    icon: Icon(Icons.edit,
-                                                        color: const Color
-                                                            .fromRGBO(161, 255,
-                                                            182, 100)),
+                                                    icon: const Icon(Icons.edit,
+                                                        color: Color.fromRGBO(
+                                                            161,
+                                                            255,
+                                                            182,
+                                                            100)),
                                                     onPressed: () {},
                                                   ),
                                                   IconButton(
-                                                    icon: Icon(Icons.delete),
+                                                    icon: const Icon(
+                                                        Icons.delete),
                                                     onPressed: () {},
                                                   ),
                                                 ])
@@ -251,18 +254,18 @@ class _ContactsState extends State<Contacts> {
                                         } else {
                                           return const Center(
                                               child: CircularProgressIndicator(
-                                                  color: const Color.fromRGBO(
+                                                  color: Color.fromRGBO(
                                                       255, 70, 70, 1)));
                                         }
                                       })
-                                  : Center(child: Text("add users")))
+                                  : const Center(child: Text("add users")))
                         ],
                       )),
                 )
               ],
             ),
             Center(
-              child: Container(
+              child: SizedBox(
                 width: 300,
                 height: 300,
                 child: (showQr && uniqueCode != null)
@@ -283,7 +286,7 @@ class _ContactsState extends State<Contacts> {
                               ),
                               IconButton(
                                 onPressed: () => toggleShowQr(),
-                                icon: Icon(Icons.close),
+                                icon: const Icon(Icons.close),
                               ),
                             ],
                           ),
@@ -307,7 +310,6 @@ class YourDataListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Use the fetched data to display in your UI
-    print(data.length);
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (context, index) {
