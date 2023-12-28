@@ -4,6 +4,7 @@ import 'package:pinpoint_app/globals.dart' as globals;
 import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class SearchEvents extends StatefulWidget {
@@ -15,16 +16,48 @@ class SearchEvents extends StatefulWidget {
 
 class _SearchEventsState extends State<SearchEvents> {
   late Future<List<Event>> _futureEvents;
+  late List<String>? _eventList;
+  TextEditingController searchBarController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _getEvents();
+    _getSavedEvents();
   }
 
   Future<List<Event>> _getEvents() async {
     _futureEvents = fetchEventList();
     return _futureEvents;
+  }
+
+  Future<void> _getSavedEvents() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _eventList = prefs.getStringList("savedEvents");
+  }
+
+  Future<void> _saveEvent(String eventId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var eventList = prefs.getStringList("savedEvents");
+    eventList?.add(eventId);
+    prefs.setStringList("savedEvents", eventList ?? [eventId]);
+    setState(() {
+      _getSavedEvents();
+    });
+  }
+
+  Future<void> _removeSavedEvent(String eventId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var eventList = prefs.getStringList("savedEvents");
+    eventList?.remove(eventId);
+    prefs.setStringList("savedEvents", eventList ?? []);
+    setState(() {
+      _getSavedEvents();
+
+  Future<void> _searchForEvent(String startsWith) async {
+    setState(() {
+      _futureEvents = searchEvent(startsWith);
+    });
   }
 
   @override
@@ -35,7 +68,7 @@ class _SearchEventsState extends State<SearchEvents> {
         child: ListView(
           children: [
             FloatingActionButton(
-              heroTag: "toMapMenu",
+              heroTag: "toAddEvent",
               onPressed: () {
                 Navigator.push(
                   context,
@@ -47,9 +80,16 @@ class _SearchEventsState extends State<SearchEvents> {
               backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
               child: const Text("Add Event"),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SearchBar(
+                  padding: const MaterialStatePropertyAll<EdgeInsets>(
+                      EdgeInsets.symmetric(horizontal: 16.0)),
+                  leading: const Icon(Icons.search),
+                  onSubmitted: (value) {
+                    _searchForEvent(value);
+                  },
+                )),
             FutureBuilder(
               future: _futureEvents,
               builder: (context, snapshot) {
@@ -104,7 +144,39 @@ class _SearchEventsState extends State<SearchEvents> {
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                Text(event.value.title),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(event.value.title),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: !_eventList!
+                                              .contains(event.value.id)
+                                          ? GestureDetector(
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 35,
+                                                color: Colors.green,
+                                              ),
+                                              onTap: () {
+                                                _saveEvent(
+                                                    event.value.id.toString());
+                                              },
+                                            )
+                                          : GestureDetector(
+                                              child: const Icon(
+                                                Icons.cancel,
+                                                size: 35,
+                                                color: Colors.black,
+                                              ),
+                                              onTap: () {
+                                                _removeSavedEvent(
+                                                    event.value.id.toString());
+                                              },
+                                            ),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           ),
