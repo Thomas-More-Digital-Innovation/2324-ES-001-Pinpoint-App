@@ -1,15 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pinpoint_app/api/event_controller.dart';
 import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/models/user.dart';
-import 'package:pinpoint_app/models/floorplan.dart';
-import 'package:pinpoint_app/api/floorplan_calls.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
-import 'package:geolocator/geolocator.dart';
 
 class CustomMap extends StatefulWidget {
   final double? centerLat;
