@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/models/user.dart';
+import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:pinpoint_app/services/user_provider.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -14,10 +13,26 @@ class Contacts extends StatefulWidget {
   State<Contacts> createState() => _ContactsState();
 }
 
+const List<String> list = <String>['24h', '48h', 'never'];
+
 class _ContactsState extends State<Contacts> {
+  late Future<List<User>> _userList;
   String? uniqueCode;
   bool showQr = false;
   bool showAll = true;
+
+  String dropdownValue = list.first;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUsers();
+  }
+
+  Future<List<User>> _getUsers() async {
+    _userList = fetchUserList();
+    return _userList;
+  }
 
   void _generateUniqueCode() {
     var uuid = const Uuid();
@@ -45,8 +60,6 @@ class _ContactsState extends State<Contacts> {
 
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<UserProvider>(context);
-
     return SafeArea(
       maintainBottomViewPadding: true,
       child: Scaffold(
@@ -69,18 +82,40 @@ class _ContactsState extends State<Contacts> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(
-                                    uniqueCode != null
-                                        ? uniqueCode!
-                                        : "Generate new code",
-                                    style: TextStyle(fontSize: 20),
+                                  Expanded(
+                                    child: Text(
+                                      uniqueCode != null
+                                          ? uniqueCode!
+                                          : "Generate new code",
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                  DropdownButton<String>(
+                                    value: dropdownValue,
+                                    icon: const Icon(Icons.arrow_downward),
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        dropdownValue = value!;
+                                      });
+                                    },
+                                    items: list.map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.copy),
-                                    onPressed: () async {
-                                      await Clipboard.setData(
-                                          ClipboardData(text: uniqueCode!));
-                                    },
+                                    onPressed: uniqueCode != null
+                                        ? () async {
+                                            await Clipboard.setData(
+                                                ClipboardData(
+                                                    text: uniqueCode!));
+                                          }
+                                        : () {},
                                   ),
                                   IconButton(
                                     icon: Icon(Icons.qr_code),
@@ -107,7 +142,7 @@ class _ContactsState extends State<Contacts> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                      color: Colors.red,
+                      color: const Color.fromRGBO(222, 226, 226, 1.0),
                       child: Column(
                         children: [
                           Padding(
@@ -118,34 +153,108 @@ class _ContactsState extends State<Contacts> {
                                 GestureDetector(
                                     onTap: () => toggleShowAllOn(),
                                     child: Text("All contacts",
-                                        style: TextStyle(fontSize: 20))),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: showAll
+                                                ? Colors.black
+                                                : Colors.grey))),
                                 GestureDetector(
                                     onTap: () => toggleShowAllOff(),
                                     child: Text("Add contacts",
-                                        style: TextStyle(fontSize: 20)))
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: !showAll
+                                                ? Colors.black
+                                                : Colors.grey)))
                               ],
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(8.0),
+                            width: double.infinity,
+                            height: 70,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(999),
+                                ),
+                                hintText: 'Enter text',
+                                // Add any other necessary styling or properties
+                              ),
                             ),
                           ),
                           Expanded(
                               child: showAll
                                   ? FutureBuilder(
-                                      future: dataProvider.fetchData(),
+                                      future: _userList,
                                       builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return Center(
-                                              child:
-                                                  CircularProgressIndicator());
-                                        } else if (snapshot.hasError) {
-                                          return Center(
-                                              child: Text(
-                                                  'Error: ${snapshot.error}'));
+                                        if (snapshot.hasData &&
+                                            snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                          return ListView(
+                                              children: snapshot.data!
+                                                  .asMap()
+                                                  .entries
+                                                  .map((user) {
+                                            return Container(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                width: double.infinity,
+                                                height: 60,
+                                                color: Color.fromRGBO(
+                                                    50, 50, 50, 1.0),
+                                                child: Row(children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      user.value.name,
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(
+                                                        Icons.location_on,
+                                                        color: Color.fromRGBO(
+                                                            255, 70, 70, 1)),
+                                                    onPressed: () {
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              CustomMap(
+                                                            centerLat:
+                                                                user.value.lat,
+                                                            centerLon:
+                                                                user.value.lon,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(Icons.edit,
+                                                        color: const Color
+                                                            .fromRGBO(161, 255,
+                                                            182, 100)),
+                                                    onPressed: () {},
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(Icons.delete),
+                                                    onPressed: () {},
+                                                  ),
+                                                ])
+                                                // Display other properties accordingly
+                                                );
+                                          }).toList());
                                         } else {
-                                          return YourDataListView(
-                                              data: dataProvider.userList);
+                                          return const Center(
+                                              child: CircularProgressIndicator(
+                                                  color: const Color.fromRGBO(
+                                                      255, 70, 70, 1)));
                                         }
-                                      },
-                                    )
+                                      })
                                   : Center(child: Text("add users")))
                         ],
                       )),
@@ -168,9 +277,9 @@ class _ContactsState extends State<Contacts> {
                                 size: 100.0,
                               ),
                               Text(
-                                uniqueCode!,
+                                "${uniqueCode!} - $dropdownValue",
                                 style: const TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.w300),
+                                    fontSize: 18, fontWeight: FontWeight.w300),
                               ),
                               IconButton(
                                 onPressed: () => toggleShowQr(),
