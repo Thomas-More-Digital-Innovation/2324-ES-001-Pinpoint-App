@@ -6,7 +6,6 @@ import 'package:pinpoint_app/screens/search_events/event_details.dart';
 import 'package:pinpoint_app/screens/search_events/event_overview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class SearchEvents extends StatefulWidget {
   const SearchEvents({Key? key}) : super(key: key);
 
@@ -53,6 +52,8 @@ class _SearchEventsState extends State<SearchEvents> {
     prefs.setStringList("savedEvents", eventList ?? []);
     setState(() {
       _getSavedEvents();
+    });
+  }
 
   Future<void> _searchForEvent(String startsWith) async {
     setState(() {
