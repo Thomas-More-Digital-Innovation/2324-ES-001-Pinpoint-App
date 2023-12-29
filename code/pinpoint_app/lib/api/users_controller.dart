@@ -14,7 +14,6 @@ Future<List<User>> fetchUserList() async {
 
       List<User> positionsList =
           positions.map((model) => User.fromJson(model)).toList();
-
       return Future.value(positionsList);
     } else {
       print("Request failed with status: ${response.statusCode}");
