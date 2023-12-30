@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/models/user.dart';
@@ -5,6 +8,7 @@ import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class Contacts extends StatefulWidget {
   const Contacts({super.key});
@@ -23,10 +27,39 @@ class _ContactsState extends State<Contacts> {
 
   String dropdownValue = list.first;
 
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
+  Barcode? result;
+  QRViewController? controller;
+
   @override
   void initState() {
     super.initState();
     _getUsers();
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  void reassemble() {
+    super.reassemble();
+    if (Platform.isAndroid) {
+      controller!.pauseCamera();
+    } else if (Platform.isIOS) {
+      controller!.resumeCamera();
+    }
+  }
+
+  void _onQRViewCreated(QRViewController controller) {
+    this.controller = controller;
+    controller.scannedDataStream.listen((scanData) {
+      setState(() {
+        result = scanData;
+      });
+    });
   }
 
   Future<List<User>> _getUsers() async {
@@ -169,22 +202,25 @@ class _ContactsState extends State<Contacts> {
                               ],
                             ),
                           ),
-                          Container(
-                            padding: const EdgeInsets.all(8.0),
-                            width: double.infinity,
-                            height: 70,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(999),
-                                ),
-                                hintText: 'Enter text',
-                                // Add any other necessary styling or properties
-                              ),
-                            ),
-                          ),
+                          showAll
+                              ? Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  width: double.infinity,
+                                  height: 70,
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(999),
+                                      ),
+                                      hintText: 'Enter text',
+                                      // Add any other necessary styling or properties
+                                    ),
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
                           Expanded(
                               child: showAll
                                   ? FutureBuilder(
@@ -258,7 +294,50 @@ class _ContactsState extends State<Contacts> {
                                                       255, 70, 70, 1)));
                                         }
                                       })
-                                  : const Center(child: Text("add users")))
+                                  : Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          width: double.infinity,
+                                          height: 70,
+                                          child: TextField(
+                                        decoration: InputDecoration(
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(999),
+                                          ),
+                                          hintText:
+                                          'Enter new contact code',
+                                          // Add any other necessary styling or properties
+                                        ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child: Column(
+                                          children: <Widget>[
+                                            Expanded(
+                                              flex: 5,
+                                              child: QRView(
+                                                key: qrKey,
+                                                onQRViewCreated:
+                                                    _onQRViewCreated,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Center(
+                                                child: (result != null)
+                                                    ? Text(
+                                                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+                                                    : Text('Scan a code'),
+                                              ),
+                                            )
+                                          ],
+                                        )),
+                                      ],
+                                    ))
                         ],
                       )),
                 )
