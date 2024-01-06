@@ -20,6 +20,7 @@ class EventAddState extends State<EventAdd> {
   final TextEditingController _dateController = TextEditingController();
 
   late String _imagePath = "";
+  late String _bannerImage = "";
   Floorplan? _floorplan;
   late String? _startDate = null;
   late String? _endDate = null;
@@ -99,6 +100,70 @@ class EventAddState extends State<EventAdd> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              "Banner Image",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            _bannerImage != ""
+                                ? const Icon(
+                                    Icons.check,
+                                    color: Colors.green,
+                                    size: 30,
+                                  )
+                                : const SizedBox.shrink(),
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                              ),
+                              onPressed: () async {
+                                final ImagePicker picker = ImagePicker();
+                                final pickedImage = await picker.pickImage(
+                                    source: ImageSource.gallery);
+
+                                if (pickedImage != null) {
+                                  setState(() {
+                                    _bannerImage = pickedImage.path;
+                                  });
+                                }
+                              },
+                              child: const Text(
+                                'Image from gallery',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                              ),
+                              onPressed: () async {
+                                final ImagePicker picker = ImagePicker();
+                                final pickedImage = await picker.pickImage(
+                                    source: ImageSource.camera);
+
+                                if (pickedImage != null) {
+                                  setState(() {
+                                    _bannerImage = pickedImage.path;
+                                  });
+                                }
+                              },
+                              child: const Text(
+                                'Image with camera',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                     TextFormField(
                       controller: _titleController,
                       decoration: const InputDecoration(labelText: 'Title'),
@@ -172,6 +237,7 @@ class EventAddState extends State<EventAdd> {
                 startDate: _startDate,
                 endDate: _endDate,
                 image: _imagePath,
+                imageBanner: _bannerImage,
                 floorplan: _floorplan);
             postNewEvent(newEvent);
             Navigator.pop(context);
