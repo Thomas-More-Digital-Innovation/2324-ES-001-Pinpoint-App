@@ -174,7 +174,7 @@ class _CustomMapState extends State<CustomMap> {
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
                   List<User> users = snapshot.data!
-                      .where((user) => user.name != globals.name)
+                      .where((user) => user.id != globals.userId)
                       .toList();
                   return MarkerLayer(
                       markers: users.asMap().entries.map((user) {

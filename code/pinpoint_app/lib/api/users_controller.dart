@@ -13,7 +13,6 @@ Future<List<User>> fetchUserList() async {
       Iterable positions = jsonDecode(response.body);
 
       List<User> positionsList = positions.map((model) {
-        print(model);
         return User.fromJson(model);
       }).toList();
       return Future.value(positionsList);
@@ -27,10 +26,10 @@ Future<List<User>> fetchUserList() async {
   }
 }
 
-Future<void> postUniqueCode(String uniqueCode) async {
+Future<void> postUniqueCode(String uniqueCode, String timeValid) async {
   Map<String, dynamic> jsonData = {
     "id": globals.userId,
-    "uniqueCode": uniqueCode
+    "code": {"value": uniqueCode, "timeValide": timeValid}
   };
 
   try {
