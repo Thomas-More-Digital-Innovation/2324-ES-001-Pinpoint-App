@@ -55,6 +55,7 @@ Future<List<Event>> searchEvent(String startsWith) async {
 Future<void> postNewEvent(Event newEvent) async {
   try {
     late String image = globals.noImage;
+    late String imageBanner = globals.noImage;
     late String floorplanImage = globals.noImage;
 
     if (newEvent.image != null && newEvent.image!.isNotEmpty) {
@@ -63,6 +64,14 @@ Future<void> postNewEvent(Event newEvent) async {
           headers: <String, String>{},
           body: File(newEvent.image!).readAsBytesSync());
       image = imageResponse.body;
+    }
+
+    if (newEvent.imageBanner != null && newEvent.imageBanner!.isNotEmpty) {
+      final imageResponse = await http.post(
+          Uri.parse("${globals.imageUrl}${newEvent.imageBanner}"),
+          headers: <String, String>{},
+          body: File(newEvent.imageBanner!).readAsBytesSync());
+      imageBanner = imageResponse.body;
     }
 
     if (newEvent.floorplan?.image != null &&
@@ -81,6 +90,10 @@ Future<void> postNewEvent(Event newEvent) async {
       "endDate": newEvent.endDate,
       "image":
           newEvent.image != null && newEvent.image!.isNotEmpty ? image : null,
+      "imageBanner":
+          newEvent.imageBanner != null && newEvent.imageBanner!.isNotEmpty
+              ? imageBanner
+              : null,
     };
 
     if (newEvent.floorplan != null) {
