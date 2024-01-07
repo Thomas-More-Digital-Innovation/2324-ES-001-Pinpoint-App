@@ -12,8 +12,9 @@ Future<List<User>> fetchUserList() async {
       // Fetch position
       Iterable positions = jsonDecode(response.body);
 
-      List<User> positionsList =
-          positions.map((model) => User.fromJson(model)).toList();
+      List<User> positionsList = positions.map((model) {
+        return User.fromJson(model);
+      }).toList();
       return Future.value(positionsList);
     } else {
       print("Request failed with status: ${response.statusCode}");
@@ -25,10 +26,10 @@ Future<List<User>> fetchUserList() async {
   }
 }
 
-Future<void> postUniqueCode(String uniqueCode) async {
+Future<void> postUniqueCode(String uniqueCode, String timeValid) async {
   Map<String, dynamic> jsonData = {
-    "name": globals.name,
-    "uniqueCode": uniqueCode
+    "id": globals.userId,
+    "code": {"value": uniqueCode, "timeValide": timeValid}
   };
 
   try {
@@ -51,9 +52,8 @@ Future<void> postUniqueCode(String uniqueCode) async {
 }
 
 Future<void> postLocation(Position pos) async {
-  final name = globals.name;
   Map<String, dynamic> jsonData = {
-    "name": name,
+    "id": globals.userId,
     "lat": pos.latitude,
     "lon": pos.longitude,
   };

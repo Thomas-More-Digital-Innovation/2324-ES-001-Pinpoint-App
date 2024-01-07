@@ -70,7 +70,7 @@ class _ContactsState extends State<Contacts> {
   void _generateUniqueCode() {
     var uuid = const Uuid();
     uniqueCode = uuid.v4().substring(0, 6);
-    postUniqueCode(uniqueCode!);
+    postUniqueCode(uniqueCode!, dropdownValue);
   }
 
   void toggleShowQr() {
@@ -244,7 +244,7 @@ class _ContactsState extends State<Contacts> {
                                                 child: Row(children: [
                                                   Expanded(
                                                     child: Text(
-                                                      user.value.name,
+                                                      user.value.id,
                                                       style: const TextStyle(
                                                           color: Colors.white),
                                                     ),
@@ -301,17 +301,17 @@ class _ContactsState extends State<Contacts> {
                                           width: double.infinity,
                                           height: 70,
                                           child: TextField(
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white,
-                                          border: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(999),
-                                          ),
-                                          hintText:
-                                          'Enter new contact code',
-                                          // Add any other necessary styling or properties
-                                        ),
+                                            decoration: InputDecoration(
+                                              filled: true,
+                                              fillColor: Colors.white,
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(999),
+                                              ),
+                                              hintText:
+                                                  'Enter new contact code',
+                                              // Add any other necessary styling or properties
+                                            ),
                                           ),
                                         ),
                                         Expanded(
@@ -393,7 +393,7 @@ class YourDataListView extends StatelessWidget {
       itemCount: data.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(data[index].name),
+          title: Text(data[index].id),
           // Display other properties accordingly
         );
       },
