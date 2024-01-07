@@ -42,7 +42,7 @@ class EventDetails extends StatelessWidget {
                     alignment: Alignment.bottomLeft,
                     child: Text("Date: ${event.startDate} - ${event.endDate}")),
                 Image.network(
-                  event.image ?? globals.noImage,
+                  event.imageBanner ?? globals.noImage,
                   fit: BoxFit.cover,
                 ),
                 Text(

@@ -7,6 +7,7 @@ class Event {
   final String? startDate;
   final String? endDate;
   final String? image;
+  final String? imageBanner;
   final Floorplan? floorplan;
 
   const Event({
@@ -16,6 +17,7 @@ class Event {
     this.startDate,
     this.endDate,
     this.image,
+    this.imageBanner,
     this.floorplan,
   });
 
@@ -27,6 +29,7 @@ class Event {
       startDate: json['startDate'],
       endDate: json['endDate'],
       image: json['image'],
+      imageBanner: json['imageBanner'],
       floorplan: json['floorplan'] != null
           ? Floorplan.fromJson(json['floorplan'])
           : null,
