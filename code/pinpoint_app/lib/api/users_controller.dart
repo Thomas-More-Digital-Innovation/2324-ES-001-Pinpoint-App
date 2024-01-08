@@ -29,7 +29,7 @@ Future<List<User>> fetchUserList() async {
 Future<void> postUniqueCode(String uniqueCode, String timeValid) async {
   Map<String, dynamic> jsonData = {
     "id": globals.userId,
-    "code": {"value": uniqueCode, "timeValide": timeValid}
+    "code": {"value": uniqueCode, "timeValid": timeValid}
   };
 
   try {
