@@ -75,6 +75,7 @@ flutter:
     - assets/rw.png
     - assets/pkp.png
     - assets/logotext.png
+    - assets/app_icon.png
   
   fonts:
   - family: Righteous
