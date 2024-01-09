@@ -15,7 +15,7 @@ class SearchEvents extends StatefulWidget {
 
 class _SearchEventsState extends State<SearchEvents> {
   late Future<List<Event>> _futureEvents;
-  late List<String>? _eventList;
+  late List<String> _eventList;
   TextEditingController searchBarController = TextEditingController();
 
   @override
@@ -32,7 +32,7 @@ class _SearchEventsState extends State<SearchEvents> {
 
   Future<void> _getSavedEvents() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _eventList = prefs.getStringList("savedEvents");
+    _eventList = prefs.getStringList("savedEvents") ?? [];
   }
 
   Future<void> _saveEvent(String eventId) async {
@@ -151,7 +151,7 @@ class _SearchEventsState extends State<SearchEvents> {
                                     Text(event.value.title),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: !_eventList!
+                                      child: !_eventList
                                               .contains(event.value.id)
                                           ? GestureDetector(
                                               child: const Icon(
