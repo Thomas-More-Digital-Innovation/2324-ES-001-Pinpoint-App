@@ -8,6 +8,7 @@ import 'package:pinpoint_app/models/event.dart';
 import 'package:pinpoint_app/models/user.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/globals.dart' as globals;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomMap extends StatefulWidget {
   final double? centerLat;
@@ -26,6 +27,7 @@ class CustomMap extends StatefulWidget {
 class _CustomMapState extends State<CustomMap> {
   MapController mapController = MapController();
   late StreamSubscription<Position> locationStreamSubscription;
+  bool locationStreamStarted = false;
   Position? currentPosition;
   LocationSettings settings = const LocationSettings(
       accuracy: LocationAccuracy.best, distanceFilter: 0);
@@ -33,6 +35,7 @@ class _CustomMapState extends State<CustomMap> {
   late Future<List<User>> _futureUserList;
   late Future<List<Event>> _futureEvents;
   late Timer _timer;
+  bool _isTracking = true;
 
   @override
   void initState() {
@@ -43,8 +46,16 @@ class _CustomMapState extends State<CustomMap> {
   }
 
   Future<void> _initializeData() async {
+    _getIsTracking();
     _futureUserList = fetchUserList();
     _futureEvents = fetchEventList();
+  }
+
+  Future<void> _getIsTracking() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isTracking = prefs.getBool('isTracking') ?? true;
+    });
   }
 
   Future<bool> _askPermission() async {
@@ -87,6 +98,7 @@ class _CustomMapState extends State<CustomMap> {
   void _startContinuousLocationTracking() async {
     try {
       if (await _askPermission()) {
+        locationStreamStarted = true;
         locationStreamSubscription = Geolocator.getPositionStream(
           locationSettings: settings,
         ).listen((Position position) {
@@ -95,6 +107,9 @@ class _CustomMapState extends State<CustomMap> {
             postLocation(currentPosition!);
           });
         });
+        if (!_isTracking) {
+          locationStreamSubscription.pause();
+        }
       }
     } catch (e) {
       print("There was an excetion in _startContinuousLocationTracking(): $e");
@@ -108,10 +123,28 @@ class _CustomMapState extends State<CustomMap> {
     });
   }
 
+  void _toggleTracking() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isTracking = !_isTracking;
+      prefs.setBool('isTracking', _isTracking);
+
+      if (locationStreamStarted) {
+        if (locationStreamSubscription.isPaused) {
+          locationStreamSubscription.resume();
+        } else {
+          locationStreamSubscription.pause();
+        }
+      }
+    });
+  }
+
   @override
   void dispose() {
     _timer.cancel();
-    locationStreamSubscription.cancel();
+    if (locationStreamStarted) {
+      locationStreamSubscription.cancel();
+    }
     super.dispose();
   }
 
@@ -194,6 +227,24 @@ class _CustomMapState extends State<CustomMap> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                FloatingActionButton(
+                  heroTag: "toggleTracking",
+                  onPressed: () {
+                    _toggleTracking();
+                  },
+                  backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+                  child: Icon(
+                    _isTracking
+                        ? Icons.location_on_outlined
+                        : Icons.location_off_outlined,
+                    size: 40,
+                    color: const Color.fromRGBO(30, 30, 30, 1.0),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                  width: 10,
+                ),
                 FloatingActionButton(
                   heroTag: "toMyLocation",
                   onPressed: () {
