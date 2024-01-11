@@ -24,8 +24,6 @@ const List<String> list = <String>['24h', '48h', 'never'];
 class _ContactsState extends State<Contacts> {
   late Future<List<User>> _userList;
   String? uniqueCode;
-  late String? _friendName;
-  late String? _friendPicture;
   bool showQr = false;
   bool showAll = true;
 
@@ -95,10 +93,12 @@ class _ContactsState extends State<Contacts> {
     });
   }
 
-  void _getFriendInfo(String friendId) async {
+  Future<Map<String, String>> _getFriendInfo(String friendId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _friendName = prefs.getString('${friendId}_name');
-    _friendPicture = prefs.getString('${friendId}_picture');
+    String friendName = prefs.getString('${friendId}_name') ?? '';
+    String friendPicture = prefs.getString('${friendId}_picture') ?? '';
+
+    return {'name': friendName, 'picture': friendPicture};
   }
 
   @override
@@ -252,12 +252,74 @@ class _ContactsState extends State<Contacts> {
                                                 color: const Color.fromRGBO(
                                                     50, 50, 50, 1.0),
                                                 child: Row(children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      user.value.id,
-                                                      style: const TextStyle(
-                                                          color: Colors.white),
-                                                    ),
+                                                  FutureBuilder<
+                                                      Map<String, String>>(
+                                                    future: _getFriendInfo(
+                                                        user.value.id),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      if (snapshot
+                                                              .connectionState ==
+                                                          ConnectionState
+                                                              .done) {
+                                                        String friendName =
+                                                            snapshot.data?[
+                                                                    'name'] ??
+                                                                '';
+                                                        String friendPicture =
+                                                            snapshot.data?[
+                                                                    'picture'] ??
+                                                                '';
+
+                                                        // Use a conditional expression to decide what to display
+                                                        Widget displayWidget = friendName
+                                                                    .isNotEmpty &&
+                                                                friendPicture
+                                                                    .isNotEmpty
+                                                            ? Row(
+                                                                children: [
+                                                                  CircleAvatar(
+                                                                    backgroundImage:
+                                                                        NetworkImage(
+                                                                            friendPicture), // Assuming friendPicture is the URL
+                                                                  ),
+                                                                  SizedBox(
+                                                                      width:
+                                                                          8), // Adjust spacing as needed
+                                                                  Text(
+                                                                    friendName,
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  ),
+                                                                ],
+                                                              )
+                                                            : friendName.isNotEmpty &&
+                                                                    friendPicture
+                                                                        .isEmpty
+                                                                ? Text(
+                                                                    friendName,
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  )
+                                                                : Text(
+                                                                    user.value
+                                                                        .id,
+                                                                    style: const TextStyle(
+                                                                        color: Colors
+                                                                            .white),
+                                                                  );
+
+                                                        // Wrap the Text widget with Expanded
+                                                        return Expanded(
+                                                          child: displayWidget,
+                                                        );
+                                                      } else {
+                                                        // You can return a loading indicator or an empty container while waiting
+                                                        return CircularProgressIndicator();
+                                                      }
+                                                    },
                                                   ),
                                                   IconButton(
                                                     icon: const Icon(
@@ -286,20 +348,26 @@ class _ContactsState extends State<Contacts> {
                                                             255,
                                                             182,
                                                             100)),
-                                                    onPressed: () {
-                                                      _getFriendInfo(
-                                                          user.value.id);
+                                                    onPressed: () async {
+                                                      Map<String, String>
+                                                          friendInfo =
+                                                          await _getFriendInfo(
+                                                              user.value.id);
+
                                                       showDialog(
-                                                          context: context,
-                                                          builder: (BuildContext
-                                                                  context) =>
-                                                              EditFriend(
-                                                                  name:
-                                                                      _friendName,
-                                                                  profileImage:
-                                                                      _friendPicture,
-                                                                  friend: user
-                                                                      .value));
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            EditFriend(
+                                                          name: friendInfo[
+                                                                  'name'] ??
+                                                              '',
+                                                          profileImage: friendInfo[
+                                                                  'picture'] ??
+                                                              '',
+                                                          friend: user.value,
+                                                        ),
+                                                      );
                                                     },
                                                   ),
                                                   IconButton(
@@ -401,26 +469,6 @@ class _ContactsState extends State<Contacts> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class YourDataListView extends StatelessWidget {
-  final List<User> data;
-
-  const YourDataListView({super.key, required this.data});
-
-  @override
-  Widget build(BuildContext context) {
-    // Use the fetched data to display in your UI
-    return ListView.builder(
-      itemCount: data.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(data[index].id),
-          // Display other properties accordingly
-        );
-      },
     );
   }
 }
