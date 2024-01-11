@@ -98,6 +98,7 @@ Future<void> postNewEvent(Event newEvent) async {
 
     if (newEvent.floorplan != null) {
       jsonData["floorplan"] = {
+        "image": floorplanImage,
         "location": {
           "topLeft": {
             "lat": newEvent.floorplan?.topLeftLat,
@@ -106,11 +107,11 @@ Future<void> postNewEvent(Event newEvent) async {
           "bottomRight": {
             "lat": newEvent.floorplan?.bottomRightLat,
             "lon": newEvent.floorplan?.bottomRightLon,
-          },
-          "image": floorplanImage,
+          }
         },
       };
     }
+    print(jsonData);
 
     final response = await http.post(
       Uri.parse(globals.eventUrl),
