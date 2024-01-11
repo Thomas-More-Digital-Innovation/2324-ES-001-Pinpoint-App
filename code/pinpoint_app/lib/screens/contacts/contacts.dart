@@ -4,7 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pinpoint_app/api/users_controller.dart';
 import 'package:pinpoint_app/models/user.dart';
+import 'package:pinpoint_app/screens/contacts/edit_friend.dart';
 import 'package:pinpoint_app/screens/pinpoint/custom_map.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +24,8 @@ const List<String> list = <String>['24h', '48h', 'never'];
 class _ContactsState extends State<Contacts> {
   late Future<List<User>> _userList;
   String? uniqueCode;
+  late String? _friendName;
+  late String? _friendPicture;
   bool showQr = false;
   bool showAll = true;
 
@@ -89,6 +93,12 @@ class _ContactsState extends State<Contacts> {
     setState(() {
       showAll = false;
     });
+  }
+
+  void _getFriendInfo(String friendId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _friendName = prefs.getString('${friendId}_name');
+    _friendPicture = prefs.getString('${friendId}_picture');
   }
 
   @override
@@ -276,7 +286,21 @@ class _ContactsState extends State<Contacts> {
                                                             255,
                                                             182,
                                                             100)),
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      _getFriendInfo(
+                                                          user.value.id);
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (BuildContext
+                                                                  context) =>
+                                                              EditFriend(
+                                                                  name:
+                                                                      _friendName,
+                                                                  profileImage:
+                                                                      _friendPicture,
+                                                                  friend: user
+                                                                      .value));
+                                                    },
                                                   ),
                                                   IconButton(
                                                     icon: const Icon(
