@@ -79,7 +79,7 @@ class _EditFriendState extends State<EditFriend> {
                       "Profile Picture",
                       style: TextStyle(fontSize: 16),
                     ),
-                    widget.profileImage != null
+                    widget.profileImage != ""
                         ? const Icon(
                             Icons.check,
                             color: Colors.green,
@@ -135,18 +135,22 @@ class _EditFriendState extends State<EditFriend> {
       ),
       actions: <Widget>[
         FloatingActionButton(
+          heroTag: "saveContactNameAndPicture",
+          backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
           onPressed: () {
             widget.name = _nameController.text;
             _saveFriend(widget.name, widget.profileImage);
             Navigator.of(context).pop();
           },
-          child: const Text('Opslaan'),
+          child: const Icon(Icons.save, color: Colors.white),
         ),
         FloatingActionButton(
+          heroTag: "exitToOverviewWithoutSaving",
+          backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Close'),
+          child: const Icon(Icons.close, color: Colors.white),
         ),
       ],
     );

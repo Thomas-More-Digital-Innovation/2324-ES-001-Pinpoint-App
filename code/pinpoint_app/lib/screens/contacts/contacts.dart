@@ -119,7 +119,7 @@ class _ContactsState extends State<Contacts> {
                       children: [
                         Expanded(
                           child: Container(
-                            color: Colors.green,
+                            color: const Color.fromRGBO(161, 255, 182, 100),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
@@ -135,7 +135,8 @@ class _ContactsState extends State<Contacts> {
                                   ),
                                   DropdownButton<String>(
                                     value: dropdownValue,
-                                    icon: const Icon(Icons.arrow_downward),
+                                    icon: const Icon(Icons.arrow_downward,
+                                        color: Colors.black),
                                     onChanged: (String? value) {
                                       // This is called when the user selects an item.
                                       setState(() {
@@ -382,8 +383,8 @@ class _ContactsState extends State<Contacts> {
                                         } else {
                                           return const Center(
                                               child: CircularProgressIndicator(
-                                                  color: Color.fromRGBO(
-                                                      255, 70, 70, 1)));
+                                                  color: const Color.fromRGBO(
+                                                      161, 255, 182, 100)));
                                         }
                                       })
                                   : Column(

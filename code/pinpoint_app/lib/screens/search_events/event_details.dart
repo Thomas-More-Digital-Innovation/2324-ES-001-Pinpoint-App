@@ -15,18 +15,20 @@ class EventDetails extends StatelessWidget {
         floatingActionButton: Padding(
           padding: const EdgeInsets.fromLTRB(8, 8, 0, 8),
           child: FloatingActionButton(
-              child: const Icon(Icons.map),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CustomMap(
-                      centerLat: event.floorplan?.centerLat,
-                      centerLon: event.floorplan?.centerLon,
-                    ),
+            child: const Icon(Icons.map),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CustomMap(
+                    centerLat: event.floorplan?.centerLat,
+                    centerLon: event.floorplan?.centerLon,
                   ),
-                );
-              }),
+                ),
+              );
+            },
+            backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
+          ),
         ),
         body: SingleChildScrollView(
           child: Padding(
