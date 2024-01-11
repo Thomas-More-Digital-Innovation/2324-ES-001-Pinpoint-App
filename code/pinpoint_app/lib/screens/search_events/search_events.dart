@@ -70,6 +70,7 @@ class _SearchEventsState extends State<SearchEvents> {
           children: [
             FloatingActionButton(
               heroTag: "toAddEvent",
+              backgroundColor: const Color.fromRGBO(50, 50, 50, 1.0),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -78,8 +79,7 @@ class _SearchEventsState extends State<SearchEvents> {
                   ),
                 );
               },
-              backgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
-              child: const Text("Add Event"),
+              child: const Icon(Icons.add, color: Colors.white),
             ),
             Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -186,7 +186,9 @@ class _SearchEventsState extends State<SearchEvents> {
                     }).toList(),
                   );
                 } else {
-                  return const CircularProgressIndicator();
+                  return const Center(
+                      child: CircularProgressIndicator(
+                          color: const Color.fromRGBO(161, 255, 182, 100)));
                 }
               },
             ),

@@ -151,7 +151,9 @@ class _EventOverviewState extends State<EventOverview> {
                         }).toList(),
                       );
                     } else {
-                      return const CircularProgressIndicator();
+                      return const Center(
+                          child: CircularProgressIndicator(
+                              color: const Color.fromRGBO(161, 255, 182, 100)));
                     }
                   }),
             ),
